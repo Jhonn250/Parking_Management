@@ -17,6 +17,7 @@ public class Person {
     private String address = "";
     private String email = "";
     private String phone = "";
+    private String typePerson = ""; //estudiante, maestro, administrativo
     
     public void set(Person p){
         this.setId(p.getId());
@@ -76,6 +77,16 @@ public class Person {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getTypePerson() {
+        return typePerson;
+    }
+
+    public void setTypePerson(String typePerson) {
+        this.typePerson = typePerson;
+    }
+    
+    
     
     
 }
