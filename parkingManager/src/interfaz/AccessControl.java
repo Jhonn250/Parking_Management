@@ -24,13 +24,13 @@ import java.util.Random;
  */
 public class AccessControl extends javax.swing.JFrame {
     
-    Date date = new Date();
-    Date auxDate = new Date();
+    Date date = new Date(); //Fecha (hora entrada)
+    Date auxDate = new Date();//Fecha (hora salida)
     
     Random r = new Random();
     int valorDado = r.nextInt(100);  //
     
-    private Connection conexion = null;
+    private Connection conexion = null; //Objeto de 
     private ResultSet result = null;
     private Statement statement = null;
     
@@ -78,10 +78,39 @@ public class AccessControl extends javax.swing.JFrame {
         
        
     }
-    
+    /*public boolean isValidInfoStudent()
+    {
+        if(nameText.getText().length() > 0)
+        {
+            if(lastText.getText().length() > 0)
+            {
+                if(phoneText.getText().length() > 0 && phoneText.getText().length() > 0)
+                {
+                    if(ocupationComboBox.getSelectedIndex()!= -1)
+                    {
+                        if(careerText.getText().length() >0)
+                        {
+                            if(statusComboBox.getSelectedIndex() != -1)
+                            {
+                                
+                            }
+                            
+                        }
+                                  
+                    }   
+                    
+                }
+            }
+        }
+            
+        
+        
+    }*/
+            
     public void connection()
     {
-        String url = "jdbc:postgresql://localhost:5432/parkingManagement"; 
+        String url = "jdbc:postgresql://localhost:5432/parkingManagement";  /*Direccion por default en donde se
+        encuentra la base de datos*/
         String user = "postgres";
         String password = ".Eduardo0309.";
         
@@ -95,7 +124,7 @@ public class AccessControl extends javax.swing.JFrame {
             Class.forName("org.postgresql.Driver");
             conexion= DriverManager.getConnection(url,user,password);
             
-            if(conexion!=null)
+            if(conexion!=null) //Verificacion para saber si se conecto correctamente
             {
                 System.out.println("Conectando a la base de datos\n");
             }
@@ -350,6 +379,7 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel15.setText("Vehículo:");
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, -1, -1));
 
+        typeVcomboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta" }));
         getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, 130, 30));
 
