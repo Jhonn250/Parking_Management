@@ -14,7 +14,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Random;
 
 /**
  *
@@ -22,11 +24,19 @@ import java.sql.Statement;
  */
 public class AccessControl extends javax.swing.JFrame {
     
+    Date date = new Date();
+    Date auxDate = new Date();
+    
+    Random r = new Random();
+    int valorDado = r.nextInt(100);  //
+    
     private Connection conexion = null;
     private ResultSet result = null;
     private Statement statement = null;
     
     private String query = "";
+    
+    private int idPark = 1;
     
     private String id = "";
     private String name = "";
@@ -55,7 +65,10 @@ public class AccessControl extends javax.swing.JFrame {
     
     
     
-    
+    public int autoIdPark(){
+       
+        return idPark++;
+    }
     
    
     public AccessControl() {
@@ -68,9 +81,9 @@ public class AccessControl extends javax.swing.JFrame {
     
     public void connection()
     {
-        String url= "jdbc:postgresql://localhost:5432/parkingManagement"; 
-        String user= "postgres";
-        String password= ".Eduardo0309.";
+        String url = "jdbc:postgresql://localhost:5432/parkingManagement"; 
+        String user = "postgres";
+        String password = ".Eduardo0309.";
         
         if(conexion!=null)
         {
@@ -138,7 +151,7 @@ public class AccessControl extends javax.swing.JFrame {
     public void hideTeacherInfo()
     {
         labelDepartment.setVisible(false);
-            departmentComboBox.setVisible(false);
+        departmentComboBox.setVisible(false);
     }
     
 
@@ -444,6 +457,9 @@ public class AccessControl extends javax.swing.JFrame {
                 
                 if(indexComboBox() == 0)
                 {
+                    long time = date.getTime();
+                    int idPark = 0;
+                    Timestamp ts = new Timestamp(time);
                     
                     int alumno = statement.executeUpdate("INSERT INTO alumnos values ('"+id+"','"+name+"','"+lastName+"',"
                         +"'"+career+"', '"+status+"','"+phone+"','"+plates+"');"
@@ -451,6 +467,12 @@ public class AccessControl extends javax.swing.JFrame {
                     
                     int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
                             + "WHERE codigo_alumno = '"+idText.getText()+"';");
+                    
+                    long time2 = auxDate.getTime();
+                    Timestamp ts2 = new Timestamp(time2);
+                    
+                    int park = statement.executeUpdate("INSERT INTO estacionamiento values ('"+valorDado +"','"+plates+"','"+ts+"',"
+                        +"'"+ts2+"', '"+type+"');");
                       
                     
                     if(alumno == 1)
@@ -465,12 +487,22 @@ public class AccessControl extends javax.swing.JFrame {
                 }
                 else if(indexComboBox() == 1)
                 {
+                    long time = date.getTime();
+                    Timestamp ts = new Timestamp(time);
+                    
                     int profesor = statement.executeUpdate("INSERT INTO profesores values ('"+id+"','"+name+"','"+lastName+"',"
                         +"'"+department+"', '"+phone+"','"+plates+"');"); 
                     
                     int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
                             + "WHERE codigo_profesor = '"+idText.getText()+"';");
+                    
+                    long time2 = date.getTime();
+                    Timestamp ts2 = new Timestamp(time2);
+                    
+                    int park = statement.executeUpdate("INSERT INTO estacionamiento values ('"+valorDado +"','"+plates+"','"+ts+"',"
+                        +"'"+ts2+"', '"+type+"');");
                     if(profesor == 1)
+                    
                     {
                         System.out.println("Registro agregado\n");
                     }
@@ -482,11 +514,22 @@ public class AccessControl extends javax.swing.JFrame {
                 }
                 else if(indexComboBox() == 2)
                 {
+                    long time = date.getTime();
+                    Timestamp ts = new Timestamp(time);
+                    
                     int administrativo = statement.executeUpdate("INSERT INTO administrativos values ('"+id+"','"+phone+"','"+area+"',"
                         +"'"+lastName+"', '"+name+"','"+plates+"');"); 
                     
                     int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
                             + "WHERE codigo_profesor = '"+idText.getText()+"';");
+                    
+                    long time2 = date.getTime();
+                    Timestamp ts2 = new Timestamp(time2);
+                    
+                    int park = statement.executeUpdate("INSERT INTO estacionamiento values ('"+valorDado +"','"+plates+"','"+ts+"',"
+                        +"'"+ts2+"', '"+type+"');");
+                    
+                    
                     if(administrativo == 1)
                     {
                         System.out.println("Registro agregado\n");
