@@ -5,17 +5,57 @@
  */
 package interfaz;
 
+
 import classes.Person;
+import classes.Student;
+import classes.Teacher;
+import classes.Vehicle;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 
 /**
  *
  * @author atlas
  */
 public class AccessControl extends javax.swing.JFrame {
-
-    /**
-     * Creates new form AccessControl
-     */
+    
+    private Connection conexion = null;
+    private ResultSet result = null;
+    private Statement statement = null;
+    
+    private String id = "";
+    private String name = "";
+    private String lastName = "";
+    private String phone = "";
+    private String typePerson = "";
+    
+    //Student
+    private String career = "";
+    private String semester = "";
+    private String status = "";
+    
+    //Administrative
+    private String area = "";
+    
+    //Teacher
+    private String department = "";
+    
+    //Vehicle
+    private String model = "";
+    private String brand = ""; //marca
+    private String type = ""; //auto-motocicleta
+    private String plates = "";
+    private String color = "";
+    
+    
+    
+    
+    
+    
+   
     public AccessControl() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -24,32 +64,50 @@ public class AccessControl extends javax.swing.JFrame {
        
     }
     
+    public void connection()
+    {
+        String url= "jdbc:postgresql://localhost:5432/parkingManagement"; 
+        String user= "postgres";
+        String password= ".Eduardo0309.";
+        
+        if(conexion!=null)
+        {
+            return;
+        }
+                
+        try
+        {
+            Class.forName("org.postgresql.Driver");
+            conexion= DriverManager.getConnection(url,user,password);
+            
+            if(conexion!=null)
+            {
+                System.out.println("Conectando a la base de datos\n");
+            }
+                        
+        }catch (Exception e)
+        {
+               System.out.println("Error de conexion: "+e.getMessage()+"\n");     
+        }
+    }
     
-   /* public Person addPerson(Person p) {
-        p.setId(Integer.parseInt(idText.getText()));
-        p.setName(nameText.getText());
-        p.setLast(APText.getText());
-        p.setSLast(AMText.getText());
-        p.setAddress(DireccionText.getText());
-        p.setPhone(PhoneText.getText());
-        p.setEmail(EmailText.getText());
-        p.setSex((String) sexComboBox.getSelectedItem());
-        p.setState((String) ComboBoxESTADO.getSelectedItem());
-        p.setCity(CityText.getText());
-
-        return p;
-    }*/
+    
+   public int typePerson()
+   {
+       return ocupationComboBox.getSelectedIndex();  
+           
+   }
 
     
     public void defaultInfo()
     {
-        labelSemester.setVisible(false); 
+        //labelSemester.setVisible(false); 
             labelCareer.setVisible(false);
             labelState.setVisible(false);
             labelArea.setVisible(false);
             semesterComboBox.setVisible(false);
             careerText.setVisible(false);
-            stateComboBox.setVisible(false);
+            statusComboBox.setVisible(false);
             
             labelArea.setVisible(false);
             areaComboBox.setVisible(false);
@@ -61,12 +119,12 @@ public class AccessControl extends javax.swing.JFrame {
     
     public void hideStudentInfo()
     {
-        labelSemester.setVisible(false); 
+        //labelSemester.setVisible(false); 
             labelCareer.setVisible(false);
             labelState.setVisible(false);
             semesterComboBox.setVisible(false);
             careerText.setVisible(false);
-            stateComboBox.setVisible(false);
+            statusComboBox.setVisible(false);
     }
     
     public void hideAdministrativeInfo()
@@ -95,24 +153,18 @@ public class AccessControl extends javax.swing.JFrame {
         nameText = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         lastText = new javax.swing.JTextField();
-        addressText = new javax.swing.JTextField();
-        emailText = new javax.swing.JTextField();
         phoneText = new javax.swing.JTextField();
         careerText = new javax.swing.JTextField();
         idText = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         labelCareer = new javax.swing.JLabel();
         labelState = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        stateComboBox = new javax.swing.JComboBox<>();
+        statusComboBox = new javax.swing.JComboBox<>();
         ocupationComboBox = new javax.swing.JComboBox<>();
-        labelSemester = new javax.swing.JLabel();
-        semesterComboBox = new javax.swing.JComboBox<>();
         labelArea = new javax.swing.JLabel();
         areaComboBox = new javax.swing.JComboBox<>();
         departmentComboBox = new javax.swing.JComboBox<>();
@@ -128,6 +180,7 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         typeVcomboBox = new javax.swing.JComboBox<>();
+        btnInsert = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -150,17 +203,11 @@ public class AccessControl extends javax.swing.JFrame {
         });
         getContentPane().add(lastText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 220, 30));
 
-        addressText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(addressText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 220, 30));
-
-        emailText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(emailText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 220, 30));
-
         phoneText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(phoneText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 220, 30));
+        getContentPane().add(phoneText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 220, 30));
 
         careerText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(careerText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 450, 220, 30));
+        getContentPane().add(careerText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 220, 30));
 
         idText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         getContentPane().add(idText, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 220, 30));
@@ -175,30 +222,20 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel4.setText("Apellidos:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 70, 30));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Dirección:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 70, 30));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("E-mail:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 70, 30));
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Celular:");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 70, 30));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 70, 30));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Ocupación:");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 70, 30));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 70, 30));
 
         labelCareer.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCareer.setForeground(new java.awt.Color(255, 255, 255));
         labelCareer.setText("Carrera:");
-        getContentPane().add(labelCareer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, 80, 20));
+        getContentPane().add(labelCareer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 80, 20));
 
         labelState.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelState.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,52 +247,37 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel11.setText("Código:");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 70, 30));
 
-        stateComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        stateComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo", " " }));
-        stateComboBox.addActionListener(new java.awt.event.ActionListener() {
+        statusComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        statusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        statusComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stateComboBoxActionPerformed(evt);
+                statusComboBoxActionPerformed(evt);
             }
         });
-        getContentPane().add(stateComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, 220, 30));
+        getContentPane().add(statusComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, 220, 30));
 
         ocupationComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        ocupationComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estudiante", "Profesor", "Administrativo", "Visitante", "" }));
+        ocupationComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estudiante", "Profesor", "Administrativo", "Visitante" }));
         ocupationComboBox.setSelectedIndex(-1);
         ocupationComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ocupationComboBoxActionPerformed(evt);
             }
         });
-        getContentPane().add(ocupationComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 400, 220, 30));
-
-        labelSemester.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        labelSemester.setForeground(new java.awt.Color(255, 255, 255));
-        labelSemester.setText("Semestre:");
-        getContentPane().add(labelSemester, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 70, 30));
-
-        semesterComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        semesterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto", "Séptimo", "Octavo", "Noveno", " " }));
-        semesterComboBox.setSelectedIndex(-1);
-        semesterComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                semesterComboBoxActionPerformed(evt);
-            }
-        });
-        getContentPane().add(semesterComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, 220, 30));
+        getContentPane().add(ocupationComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 220, 30));
 
         labelArea.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelArea.setForeground(new java.awt.Color(255, 255, 255));
         labelArea.setText("Área:");
-        getContentPane().add(labelArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, 70, 20));
+        getContentPane().add(labelArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 70, 20));
 
         areaComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        areaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Control Escolar", "Orientación", "Coordinación", " ", " " }));
+        areaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Control Escolar", "Orientación", "Coordinación" }));
         areaComboBox.setSelectedIndex(-1);
-        getContentPane().add(areaComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 450, 220, 30));
+        getContentPane().add(areaComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 220, 30));
 
         departmentComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Computación", "Física", "Matemáticas", "Industrial", "Transporte", " " }));
+        departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ciencias y computación", "Física", "Matemáticas", "Industrial", "Mecánica Eléctrica", "Electrónica", "Química", "Farmacobiología", "Civil y Topografía" }));
         departmentComboBox.setSelectedIndex(-1);
         getContentPane().add(departmentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, 220, 30));
 
@@ -314,9 +336,17 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel15.setText("Vehículo:");
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, -1, -1));
 
-        typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta", " " }));
-        typeVcomboBox.setSelectedIndex(-1);
+        typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta" }));
         getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, 130, 30));
+
+        btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnInsert.setText("Insertar");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 90, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/greyBg.jpg"))); // NOI18N
@@ -334,12 +364,12 @@ public class AccessControl extends javax.swing.JFrame {
         
         if(ocupationComboBox.getSelectedItem().equals("Estudiante"))
         {
-            labelSemester.setVisible(true); 
+            //labelSemester.setVisible(true); 
             labelCareer.setVisible(true);
             labelState.setVisible(true);
             semesterComboBox.setVisible(true);
             careerText.setVisible(true);
-            stateComboBox.setVisible(true);
+            statusComboBox.setVisible(true);
             
            hideTeacherInfo();
            hideAdministrativeInfo();
@@ -373,18 +403,64 @@ public class AccessControl extends javax.swing.JFrame {
         
     }//GEN-LAST:event_ocupationComboBoxActionPerformed
 
-    private void semesterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_semesterComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_semesterComboBoxActionPerformed
-
-    private void stateComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stateComboBoxActionPerformed
+    private void statusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboBoxActionPerformed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_stateComboBoxActionPerformed
+    }//GEN-LAST:event_statusComboBoxActionPerformed
 
     private void platesTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_platesTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_platesTextActionPerformed
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        // TODO add your handling code here:
+        connection();
+        try
+        {
+            if(typePerson() == 0)
+            {
+                id = idText.getText();
+                name = nameText.getText();
+                lastName = lastText.getText();
+                
+                phone = phoneText.getText();
+                typePerson = (String) ocupationComboBox.getSelectedItem();
+
+                career = careerText.getText();
+                semester = (String) semesterComboBox.getSelectedItem();
+                status = (String) statusComboBox.getSelectedItem();
+                
+                plates = platesText.getText();
+
+
+                statement = conexion.createStatement();
+
+                int q = statement.executeUpdate("INSERT INTO alumnos values ('"+id+"','"+name+"','"+lastName+"',"
+                        +"'"+career+"', '"+status+"','"+phone+"','"+plates+"');");
+                
+                ///"INSERT INTO persona values ('"+code+"','"+name+"','"+last+"');"
+
+                if(q ==1)
+                {
+                    System.out.println("Registro agregado\n");
+                }
+                else
+                {
+                    System.out.println("El registro no se pudo agregar\n");
+                }
+            }
+            
+        }catch (Exception e)
+        {
+            System.out.println("Error de conexion: "+e.getMessage()+"\n");
+        }
+        
+    }                                      
+
+    private void showActionPerformed(java.awt.event.ActionEvent evt) {                                     
+       
+        
+    }//GEN-LAST:event_btnInsertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -422,13 +498,12 @@ public class AccessControl extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField addressText;
     private javax.swing.JComboBox<String> areaComboBox;
     private javax.swing.JTextField brandText;
+    private javax.swing.JButton btnInsert;
     private javax.swing.JTextField careerText;
     private javax.swing.JTextField colorText;
     private javax.swing.JComboBox<String> departmentComboBox;
-    private javax.swing.JTextField emailText;
     private javax.swing.JTextField idText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -439,8 +514,6 @@ public class AccessControl extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -448,7 +521,6 @@ public class AccessControl extends javax.swing.JFrame {
     private javax.swing.JLabel labelArea;
     private javax.swing.JLabel labelCareer;
     private javax.swing.JLabel labelDepartment;
-    private javax.swing.JLabel labelSemester;
     private javax.swing.JLabel labelState;
     private javax.swing.JTextField lastText;
     private javax.swing.JTextField modelText;
@@ -456,8 +528,7 @@ public class AccessControl extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> ocupationComboBox;
     private javax.swing.JTextField phoneText;
     private javax.swing.JTextField platesText;
-    private javax.swing.JComboBox<String> semesterComboBox;
-    private javax.swing.JComboBox<String> stateComboBox;
+    private javax.swing.JComboBox<String> statusComboBox;
     private javax.swing.JComboBox<String> typeVcomboBox;
     // End of variables declaration//GEN-END:variables
 }
