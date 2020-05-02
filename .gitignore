@@ -1,6 +1,10 @@
 # Compiled class file
 *.class
 
+/parkingManager/nbproject/private/
+/parkingManager/build/
+/parkingManager/nbproject/private/
+
 # Log file
 *.log
 
