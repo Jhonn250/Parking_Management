@@ -5,7 +5,6 @@
  */
 package interfaz;
 
-
 import classes.Person;
 import classes.Student;
 import classes.Teacher;
@@ -24,186 +23,253 @@ import javax.swing.JOptionPane;
  * @author atlas
  */
 public class AccessControl extends javax.swing.JFrame {
-    
+
     Date date = new Date(); //Fecha (hora entrada)
     Date auxDate = new Date();//Fecha (hora salida)
-    
+
     Random r = new Random();
     int valorDado = r.nextInt(100);  //
-    
+
     private Connection conexion = null; //Objeto de 
     private ResultSet result = null;
     private Statement statement = null;
-    
+
     private String query = "";
-    
+
     private int idPark = 1;
-    
+
     private String id = "";
     private String name = "";
     private String lastName = "";
     private String phone = "";
     private String typePerson = "";
-    
+
     //Student
     private String career = "";
     private String semester = "";
     private String status = "";
-    
+
     //Administrative
     private String area = "";
-    
+
     //Teacher
     private String department = "";
-    
+
     //Vehicle
     private String model = "";
     private String brand = ""; //marca
     private String type = ""; //auto-motocicleta
     private String plates = "";
     private String color = "";
-    
-    
-    
-    
-    public int autoIdPark(){
-       
+
+    public int autoIdPark() {
+
         return idPark++;
     }
-    
-   
+
     public AccessControl() {
         initComponents();
         this.setLocationRelativeTo(null);
         defaultInfo();
-        
-       
+
     }
-    public boolean isValidInfoStudent()
-    {
+
+    public boolean isValidInfoAdministrative() {
         boolean check = false;
-        if(nameText.getText().length() > 0)
-        {
-            if(lastText.getText().length() > 0)
-            {
-                if(phoneText.getText().length() > 0 && phoneText.getText().length() > 0)
-                {
-                    if(ocupationComboBox.getSelectedIndex()!= -1)
-                    {
-                        if(careerText.getText().length() >0)
-                        {
-                            if(statusComboBox.getSelectedIndex() != -1)
-                            {
+        if (idText.getText().length() > 0) {
+            if (nameText.getText().length() > 0) {
+                if (lastText.getText().length() > 0) {
+                    if (phoneText.getText().length() > 0 && phoneText.getText().length() == 8) {
+                        if (ocupationComboBox.getSelectedIndex() != -1) {
+                            if (areaComboBox.getSelectedIndex() != -1) {
                                 check = true;
-                                
-                            }else{
-                                JOptionPane.showMessageDialog(null,"Error en Status del alumno.");
-                                statusComboBox.requestFocusInWindow();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error en Área de administrativo.");
+                                areaComboBox.requestFocusInWindow();
+
                             }
-                            
-                        }else{
-                            JOptionPane.showMessageDialog(null,"Error en Carrera del alumno.");
-                            careerText.requestFocusInWindow();
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error en Ocupación.");
+                            ocupationComboBox.requestFocusInWindow();
                         }
-                                  
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Error en Ocupación.");
-                        ocupationComboBox.requestFocusInWindow();
-                    }   
-                    
-                }else{
-                    JOptionPane.showMessageDialog(null,"Error en Celular.");
-                    phoneText.requestFocusInWindow();
-                    
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error en Celular.");
+                        statusComboBox.requestFocusInWindow();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error en Apellido.");
+                    lastText.requestFocusInWindow();
                 }
-            }else{
-             JOptionPane.showMessageDialog(null,"Error en Apellido.");
-             lastText.requestFocusInWindow();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en Nombre.");
+                nameText.requestFocusInWindow();
             }
-        }else{
-            JOptionPane.showMessageDialog(null,"Error en Nombre.");
-            nameText.requestFocusInWindow();
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Error en Código.");
+            idText.requestFocusInWindow();
         }
-            
-       return check; 
+
+        return check;
     }
-            
-    public void connection()
-    {
-        String url = "jdbc:postgresql://localhost:5432/parkingManagement";  /*Direccion por default en donde se
+
+    public boolean isValidInfoTeacher() {
+        boolean check = false;
+        if (idText.getText().length() > 0) {
+            if (nameText.getText().length() > 0) {
+                if (lastText.getText().length() > 0) {
+                    if (phoneText.getText().length() > 0 && phoneText.getText().length() == 8) {
+                        if (ocupationComboBox.getSelectedIndex() != -1) {
+                            if (departmentComboBox.getSelectedIndex() != -1) {
+                                check = true;
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error en Departamento del profesor.");
+                                departmentComboBox.requestFocusInWindow();
+
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error en Ocupación.");
+                            ocupationComboBox.requestFocusInWindow();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error en Celular.");
+                        statusComboBox.requestFocusInWindow();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error en Apellido.");
+                    lastText.requestFocusInWindow();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en Nombre.");
+                nameText.requestFocusInWindow();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en Código.");
+            idText.requestFocusInWindow();
+
+        }
+
+        return check;
+    }
+
+    public boolean isValidInfoStudent() {
+        boolean check = false;
+        if (idText.getText().length() > 0) {
+            if (nameText.getText().length() > 0) {
+                if (lastText.getText().length() > 0) {
+                    if (phoneText.getText().length() > 0 && phoneText.getText().length() == 8) {
+                        if (ocupationComboBox.getSelectedIndex() != -1) {
+                            if (careerText.getText().length() > 0) {
+                                if (statusComboBox.getSelectedIndex() != -1) {
+                                    check = true;
+
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Error en Status del alumno.");
+                                    statusComboBox.requestFocusInWindow();
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error en Carrera del alumno.");
+                                careerText.requestFocusInWindow();
+                            }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error en Ocupación.");
+                            ocupationComboBox.requestFocusInWindow();
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error en Celular.");
+                        phoneText.requestFocusInWindow();
+
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error en Apellido.");
+                    lastText.requestFocusInWindow();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en Nombre.");
+                nameText.requestFocusInWindow();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en Código.");
+            idText.requestFocusInWindow();
+
+        }
+
+        return check;
+    }
+
+    public void connection() {
+        String url = "jdbc:postgresql://localhost:5432/parkingManagement";
+        /*Direccion por default en donde se
         encuentra la base de datos*/
         String user = "postgres";
         String password = ".Eduardo0309.";
-        
-        if(conexion!=null)
-        {
+
+        if (conexion != null) {
             return;
         }
-                
-        try
-        {
+
+        try {
             Class.forName("org.postgresql.Driver");
-            conexion= DriverManager.getConnection(url,user,password);
-            
-            if(conexion!=null) //Verificacion para saber si se conecto correctamente
+            conexion = DriverManager.getConnection(url, user, password);
+
+            if (conexion != null) //Verificacion para saber si se conecto correctamente
             {
                 System.out.println("Conectando a la base de datos\n");
             }
-                        
-        }catch (Exception e)
-        {
-               System.out.println("Error de conexion: "+e.getMessage()+"\n");     
+
+        } catch (Exception e) {
+            System.out.println("Error de conexion: " + e.getMessage() + "\n");
         }
     }
-    
-    
-   public int indexComboBox()
-   {
-       return ocupationComboBox.getSelectedIndex();  
-           
-   }
 
-    
-    public void defaultInfo()
-    {
-        //labelSemester.setVisible(false); 
-            labelCareer.setVisible(false);
-            labelState.setVisible(false);
-            labelArea.setVisible(false);
-            careerText.setVisible(false);
-            statusComboBox.setVisible(false);
-            
-            labelArea.setVisible(false);
-            areaComboBox.setVisible(false);
-            
-            labelDepartment.setVisible(false);
-            departmentComboBox.setVisible(false);
-        
+    public int indexComboBox() {
+        return ocupationComboBox.getSelectedIndex();
+
     }
-    
-    public void hideStudentInfo()
-    {
+
+    public void defaultInfo() {
         //labelSemester.setVisible(false); 
-            labelCareer.setVisible(false);
-            labelState.setVisible(false);
-            //semesterComboBox.setVisible(false);
-            careerText.setVisible(false);
-            statusComboBox.setVisible(false);
+        labelCareer.setVisible(false);
+        labelState.setVisible(false);
+        labelArea.setVisible(false);
+        careerText.setVisible(false);
+        statusComboBox.setVisible(false);
+
+        labelArea.setVisible(false);
+        areaComboBox.setVisible(false);
+
+        labelDepartment.setVisible(false);
+        departmentComboBox.setVisible(false);
+
     }
-    
-    public void hideAdministrativeInfo()
-    {
+
+    public void hideStudentInfo() {
+        //labelSemester.setVisible(false); 
+        labelCareer.setVisible(false);
+        labelState.setVisible(false);
+        //semesterComboBox.setVisible(false);
+        careerText.setVisible(false);
+        statusComboBox.setVisible(false);
+    }
+
+    public void hideAdministrativeInfo() {
         areaComboBox.setVisible(false);
         labelArea.setVisible(false);
-        
+
     }
-    
-    public void hideTeacherInfo()
-    {
+
+    public void hideTeacherInfo() {
         labelDepartment.setVisible(false);
         departmentComboBox.setVisible(false);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -257,7 +323,7 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Verdana", 3, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("REGISTRO:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 280, 60));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 280, 60));
 
         lastText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lastText.addActionListener(new java.awt.event.ActionListener() {
@@ -343,12 +409,12 @@ public class AccessControl extends javax.swing.JFrame {
         departmentComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ciencias y computación", "Física", "Matemáticas", "Industrial", "Mecánica Eléctrica", "Electrónica", "Química", "Farmacobiología", "Civil y Topografía" }));
         departmentComboBox.setSelectedIndex(-1);
-        getContentPane().add(departmentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 400, 220, 30));
+        getContentPane().add(departmentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 350, 220, 30));
 
         labelDepartment.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelDepartment.setForeground(new java.awt.Color(255, 255, 255));
         labelDepartment.setText("Departamento:");
-        getContentPane().add(labelDepartment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 110, 30));
+        getContentPane().add(labelDepartment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 110, 30));
 
         jSeparator1.setBackground(new java.awt.Color(204, 204, 255));
         jSeparator1.setForeground(new java.awt.Color(204, 204, 255));
@@ -356,10 +422,10 @@ public class AccessControl extends javax.swing.JFrame {
         jSeparator1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), null));
         jSeparator1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jSeparator1.setOpaque(true);
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 170, 350, 10));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 770, 10));
 
         modelText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(modelText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, 130, 30));
+        getContentPane().add(modelText, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, 130, 30));
 
         platesText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         platesText.addActionListener(new java.awt.event.ActionListener() {
@@ -367,42 +433,42 @@ public class AccessControl extends javax.swing.JFrame {
                 platesTextActionPerformed(evt);
             }
         });
-        getContentPane().add(platesText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, 130, 30));
+        getContentPane().add(platesText, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 180, 130, 30));
 
         colorText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(colorText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, 130, 30));
+        getContentPane().add(colorText, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 220, 130, 30));
 
         brandText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(brandText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 370, 130, 30));
+        getContentPane().add(brandText, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, 130, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Modelo:");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 150, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Placas:");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Color:");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 230, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Marca:");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Vehículo:");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 220, -1, -1));
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, -1, -1));
 
         typeVcomboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta" }));
-        getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 210, 130, 30));
+        getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 100, 130, 30));
 
         btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnInsert.setText("Insertar");
@@ -411,7 +477,7 @@ public class AccessControl extends javax.swing.JFrame {
                 btnInsertActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 90, 30));
+        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, 90, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/greyBg.jpg"))); // NOI18N
@@ -426,46 +492,39 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void ocupationComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ocupationComboBoxActionPerformed
         // TODO add your handling code here:
-        
-        if(ocupationComboBox.getSelectedItem().equals("Estudiante"))
-        {
+
+        if (ocupationComboBox.getSelectedItem().equals("Estudiante")) {
             //labelSemester.setVisible(true); 
             labelCareer.setVisible(true);
             labelState.setVisible(true);
             //semesterComboBox.setVisible(true);
             careerText.setVisible(true);
             statusComboBox.setVisible(true);
-            
-           hideTeacherInfo();
-           hideAdministrativeInfo();
 
-        }else if(ocupationComboBox.getSelectedItem().equals("Profesor")){
-            
+            hideTeacherInfo();
+            hideAdministrativeInfo();
+
+        } else if (ocupationComboBox.getSelectedItem().equals("Profesor")) {
+
             hideStudentInfo();
             hideAdministrativeInfo();
-            
+
             labelDepartment.setVisible(true);
             departmentComboBox.setVisible(true);
-                
-            
-        
-        
-        }
-        else if(ocupationComboBox.getSelectedItem().equals("Administrativo"))
-        {
+
+        } else if (ocupationComboBox.getSelectedItem().equals("Administrativo")) {
             hideTeacherInfo();
             hideStudentInfo();
-            
+
             areaComboBox.setVisible(true);
             labelArea.setVisible(true);
-        }else if(ocupationComboBox.getSelectedItem().equals("Visitante"))
-        {
+        } else if (ocupationComboBox.getSelectedItem().equals("Visitante")) {
             hideTeacherInfo();
             hideStudentInfo();
             hideAdministrativeInfo();
-            
+
         }
-        
+
     }//GEN-LAST:event_ocupationComboBoxActionPerformed
 
     private void statusComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboBoxActionPerformed
@@ -480,131 +539,103 @@ public class AccessControl extends javax.swing.JFrame {
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
         connection();
-        try
-        {
-            
-                id = idText.getText();
-                name = nameText.getText();
-                lastName = lastText.getText();
-                phone = phoneText.getText();
-                typePerson = (String) ocupationComboBox.getSelectedItem();
+        try {
 
-                career = careerText.getText();
-                status = (String) statusComboBox.getSelectedItem();
-                
-                model = modelText.getText();
-                plates = platesText.getText();
-                brand = brandText.getText();
-                color = colorText.getText();
-                type = (String) typeVcomboBox.getSelectedItem();
-                
-                
+            id = idText.getText();
+            name = nameText.getText();
+            lastName = lastText.getText();
+            phone = phoneText.getText();
+            typePerson = (String) ocupationComboBox.getSelectedItem();
 
-                statement = conexion.createStatement();
-                department = (String) departmentComboBox.getSelectedItem();
-                
-                
-                
-                
-                if(indexComboBox() == 0)
-                {
-                    long time = date.getTime();
-                    int idPark = 0;
-                    Timestamp ts = new Timestamp(time);
-                    
-                    int alumno = statement.executeUpdate("INSERT INTO alumnos values ('"+id+"','"+name+"','"+lastName+"',"
-                        +"'"+career+"', '"+status+"','"+phone+"','"+plates+"');"
-                                + "");
-                    
-                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
-                            + "WHERE codigo_alumno = '"+idText.getText()+"';");
-                    
-                    long time2 = auxDate.getTime();
-                    Timestamp ts2 = new Timestamp(time2);
-                    
-                    int park = statement.executeUpdate("INSERT INTO estacionamiento values ('"+valorDado +"','"+plates+"','"+ts+"',"
-                        +"'"+ts2+"', '"+type+"');");
-                      
-                    
-                    if(alumno == 1)
-                    {
-                        System.out.println("Registro agregado\n");
-                    }
-                    else
-                    {
-                        System.out.println("El registro no se pudo agregar\n");
-                    }
-                    
-                }
-                else if(indexComboBox() == 1)
-                {
-                    long time = date.getTime();
-                    Timestamp ts = new Timestamp(time);
-                    
-                    int profesor = statement.executeUpdate("INSERT INTO profesores values ('"+id+"','"+name+"','"+lastName+"',"
-                        +"'"+department+"', '"+phone+"','"+plates+"');"); 
-                    
-                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
-                            + "WHERE codigo_profesor = '"+idText.getText()+"';");
-                    
-                    long time2 = date.getTime();
-                    Timestamp ts2 = new Timestamp(time2);
-                    
-                    int park = statement.executeUpdate("INSERT INTO estacionamiento values ('"+valorDado +"','"+plates+"','"+ts+"',"
-                        +"'"+ts2+"', '"+type+"');");
-                    if(profesor == 1)
-                    
-                    {
-                        System.out.println("Registro agregado\n");
-                    }
-                    else
-                    {
-                        System.out.println("El registro no se pudo agregar\n");
-                    }
-                    
-                }
-                else if(indexComboBox() == 2)
-                {
-                    long time = date.getTime();
-                    Timestamp ts = new Timestamp(time);
-                    
-                    int administrativo = statement.executeUpdate("INSERT INTO administrativos values ('"+id+"','"+phone+"','"+area+"',"
-                        +"'"+lastName+"', '"+name+"','"+plates+"');"); 
-                    
-                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
-                            + "WHERE codigo_profesor = '"+idText.getText()+"';");
-                    
-                    long time2 = date.getTime();
-                    Timestamp ts2 = new Timestamp(time2);
-                    
-                    int park = statement.executeUpdate("INSERT INTO estacionamiento values ('"+valorDado +"','"+plates+"','"+ts+"',"
-                        +"'"+ts2+"', '"+type+"');");
-                    
-                    
-                    if(administrativo == 1)
-                    {
-                        System.out.println("Registro agregado\n");
-                    }
-                    else
-                    {
-                        System.out.println("El registro no se pudo agregar\n");
-                    }
-                }
-              
+            career = careerText.getText();
+            status = (String) statusComboBox.getSelectedItem();
 
-                
-           
-            
-        }catch (Exception e)
-        {
-            System.out.println("Error de conexion: "+e.getMessage()+"\n");
+            model = modelText.getText();
+            plates = platesText.getText();
+            brand = brandText.getText();
+            color = colorText.getText();
+            type = (String) typeVcomboBox.getSelectedItem();
+
+            statement = conexion.createStatement();
+            department = (String) departmentComboBox.getSelectedItem();
+
+            if (indexComboBox() == 0 && isValidInfoStudent()) {
+                long time = date.getTime();
+                int idPark = 0;
+                Timestamp ts = new Timestamp(time);
+
+                int alumno = statement.executeUpdate("INSERT INTO alumnos values ('" + id + "','" + name + "','" + lastName + "',"
+                        + "'" + career + "', '" + status + "','" + phone + "','" + plates + "');"
+                        + "");
+
+                int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '" + model + "' , color = '" + color + "', tipo_vehiculo = '" + type + "'"
+                        + "WHERE codigo_alumno = '" + idText.getText() + "';");
+
+                long time2 = auxDate.getTime();
+                Timestamp ts2 = new Timestamp(time2);
+
+                int park = statement.executeUpdate("INSERT INTO estacionamiento values ('" + valorDado + "','" + plates + "','" + ts + "',"
+                        + "'" + ts2 + "', '" + type + "');");
+
+                if (alumno == 1) {
+                    System.out.println("Registro agregado\n");
+                } else {
+                    System.out.println("El registro no se pudo agregar\n");
+                }
+
+            } else if (indexComboBox() == 1 && isValidInfoTeacher()) {
+                long time = date.getTime();
+                Timestamp ts = new Timestamp(time);
+
+                int profesor = statement.executeUpdate("INSERT INTO profesores values ('" + id + "','" + name + "','" + lastName + "',"
+                        + "'" + department + "', '" + phone + "','" + plates + "');");
+
+                int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '" + model + "' , color = '" + color + "', tipo_vehiculo = '" + type + "'"
+                        + "WHERE codigo_profesor = '" + idText.getText() + "';");
+
+                long time2 = date.getTime();
+                Timestamp ts2 = new Timestamp(time2);
+
+                int park = statement.executeUpdate("INSERT INTO estacionamiento values ('" + valorDado + "','" + plates + "','" + ts + "',"
+                        + "'" + ts2 + "', '" + type + "');");
+                if (profesor == 1) {
+                    System.out.println("Registro agregado\n");
+                } else {
+                    System.out.println("El registro no se pudo agregar\n");
+                }
+
+            } else if (indexComboBox() == 2 && isValidInfoAdministrative()) {
+                long time = date.getTime();
+                Timestamp ts = new Timestamp(time);
+
+                int administrativo = statement.executeUpdate("INSERT INTO administrativos values ('" + id + "','" + phone + "','" + area + "',"
+                        + "'" + lastName + "', '" + name + "','" + plates + "');");
+
+                int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '" + model + "' , color = '" + color + "', tipo_vehiculo = '" + type + "'"
+                        + "WHERE codigo_profesor = '" + idText.getText() + "';");
+
+                long time2 = date.getTime();
+                Timestamp ts2 = new Timestamp(time2);
+
+                int park = statement.executeUpdate("INSERT INTO estacionamiento values ('" + valorDado + "','" + plates + "','" + ts + "',"
+                        + "'" + ts2 + "', '" + type + "');");
+
+                if (administrativo == 1) {
+                    System.out.println("Registro agregado\n");
+                } else {
+                    System.out.println("El registro no se pudo agregar\n");
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error de conexion: " + e.getMessage() + "\n");
         }
-        
-    }                                      
 
-    private void showActionPerformed(java.awt.event.ActionEvent evt) {                                     
-       
-        
+    }
+
+    private void showActionPerformed(java.awt.event.ActionEvent evt) {
+
+
     }//GEN-LAST:event_btnInsertActionPerformed
 
     /**
