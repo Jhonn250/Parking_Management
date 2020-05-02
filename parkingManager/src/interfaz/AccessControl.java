@@ -26,6 +26,8 @@ public class AccessControl extends javax.swing.JFrame {
     private ResultSet result = null;
     private Statement statement = null;
     
+    private String query = "";
+    
     private String id = "";
     private String name = "";
     private String lastName = "";
@@ -92,7 +94,7 @@ public class AccessControl extends javax.swing.JFrame {
     }
     
     
-   public int typePerson()
+   public int indexComboBox()
    {
        return ocupationComboBox.getSelectedIndex();  
            
@@ -105,7 +107,6 @@ public class AccessControl extends javax.swing.JFrame {
             labelCareer.setVisible(false);
             labelState.setVisible(false);
             labelArea.setVisible(false);
-            semesterComboBox.setVisible(false);
             careerText.setVisible(false);
             statusComboBox.setVisible(false);
             
@@ -122,7 +123,7 @@ public class AccessControl extends javax.swing.JFrame {
         //labelSemester.setVisible(false); 
             labelCareer.setVisible(false);
             labelState.setVisible(false);
-            semesterComboBox.setVisible(false);
+            //semesterComboBox.setVisible(false);
             careerText.setVisible(false);
             statusComboBox.setVisible(false);
     }
@@ -367,7 +368,7 @@ public class AccessControl extends javax.swing.JFrame {
             //labelSemester.setVisible(true); 
             labelCareer.setVisible(true);
             labelState.setVisible(true);
-            semesterComboBox.setVisible(true);
+            //semesterComboBox.setVisible(true);
             careerText.setVisible(true);
             statusComboBox.setVisible(true);
             
@@ -417,38 +418,88 @@ public class AccessControl extends javax.swing.JFrame {
         connection();
         try
         {
-            if(typePerson() == 0)
-            {
+            
                 id = idText.getText();
                 name = nameText.getText();
                 lastName = lastText.getText();
-                
                 phone = phoneText.getText();
                 typePerson = (String) ocupationComboBox.getSelectedItem();
 
                 career = careerText.getText();
-                semester = (String) semesterComboBox.getSelectedItem();
                 status = (String) statusComboBox.getSelectedItem();
                 
+                model = modelText.getText();
                 plates = platesText.getText();
-
+                brand = brandText.getText();
+                color = colorText.getText();
+                type = (String) typeVcomboBox.getSelectedItem();
+                
+                
 
                 statement = conexion.createStatement();
-
-                int q = statement.executeUpdate("INSERT INTO alumnos values ('"+id+"','"+name+"','"+lastName+"',"
-                        +"'"+career+"', '"+status+"','"+phone+"','"+plates+"');");
+                department = (String) departmentComboBox.getSelectedItem();
                 
-                ///"INSERT INTO persona values ('"+code+"','"+name+"','"+last+"');"
+                
+                
+                
+                if(indexComboBox() == 0)
+                {
+                    
+                    int alumno = statement.executeUpdate("INSERT INTO alumnos values ('"+id+"','"+name+"','"+lastName+"',"
+                        +"'"+career+"', '"+status+"','"+phone+"','"+plates+"');"
+                                + "");
+                    
+                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
+                            + "WHERE codigo_alumno = '"+idText.getText()+"';");
+                      
+                    
+                    if(alumno == 1)
+                    {
+                        System.out.println("Registro agregado\n");
+                    }
+                    else
+                    {
+                        System.out.println("El registro no se pudo agregar\n");
+                    }
+                    
+                }
+                else if(indexComboBox() == 1)
+                {
+                    int profesor = statement.executeUpdate("INSERT INTO profesores values ('"+id+"','"+name+"','"+lastName+"',"
+                        +"'"+department+"', '"+phone+"','"+plates+"');"); 
+                    
+                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
+                            + "WHERE codigo_profesor = '"+idText.getText()+"';");
+                    if(profesor == 1)
+                    {
+                        System.out.println("Registro agregado\n");
+                    }
+                    else
+                    {
+                        System.out.println("El registro no se pudo agregar\n");
+                    }
+                    
+                }
+                else if(indexComboBox() == 2)
+                {
+                    int administrativo = statement.executeUpdate("INSERT INTO administrativos values ('"+id+"','"+phone+"','"+area+"',"
+                        +"'"+lastName+"', '"+name+"','"+plates+"');"); 
+                    
+                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '"+model+"' , color = '"+color+"', tipo_vehiculo = '"+type+"'"
+                            + "WHERE codigo_profesor = '"+idText.getText()+"';");
+                    if(administrativo == 1)
+                    {
+                        System.out.println("Registro agregado\n");
+                    }
+                    else
+                    {
+                        System.out.println("El registro no se pudo agregar\n");
+                    }
+                }
+              
 
-                if(q ==1)
-                {
-                    System.out.println("Registro agregado\n");
-                }
-                else
-                {
-                    System.out.println("El registro no se pudo agregar\n");
-                }
-            }
+                
+           
             
         }catch (Exception e)
         {
