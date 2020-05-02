@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -78,7 +79,7 @@ public class AccessControl extends javax.swing.JFrame {
         
        
     }
-    /*public boolean isValidInfoStudent()
+    public boolean isValidInfoStudent()
     {
         if(nameText.getText().length() > 0)
         {
@@ -92,7 +93,11 @@ public class AccessControl extends javax.swing.JFrame {
                         {
                             if(statusComboBox.getSelectedIndex() != -1)
                             {
+                                return true;
                                 
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Error en número de celular");
+                                celText.requestFocusInWindow();
                             }
                             
                         }
@@ -105,7 +110,7 @@ public class AccessControl extends javax.swing.JFrame {
             
         
         
-    }*/
+    }
             
     public void connection()
     {
