@@ -81,6 +81,7 @@ public class AccessControl extends javax.swing.JFrame {
     }
     public boolean isValidInfoStudent()
     {
+        boolean check = false;
         if(nameText.getText().length() > 0)
         {
             if(lastText.getText().length() > 0)
@@ -93,23 +94,38 @@ public class AccessControl extends javax.swing.JFrame {
                         {
                             if(statusComboBox.getSelectedIndex() != -1)
                             {
-                                return true;
+                                check = true;
                                 
                             }else{
-                                JOptionPane.showMessageDialog(null,"Error en número de celular");
-                                celText.requestFocusInWindow();
+                                JOptionPane.showMessageDialog(null,"Error en Status del alumno.");
+                                statusComboBox.requestFocusInWindow();
                             }
                             
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Error en Carrera del alumno.");
+                            careerText.requestFocusInWindow();
                         }
                                   
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Error en Ocupación.");
+                        ocupationComboBox.requestFocusInWindow();
                     }   
                     
+                }else{
+                    JOptionPane.showMessageDialog(null,"Error en Celular.");
+                    phoneText.requestFocusInWindow();
+                    
                 }
+            }else{
+             JOptionPane.showMessageDialog(null,"Error en Apellido.");
+             lastText.requestFocusInWindow();
             }
+        }else{
+            JOptionPane.showMessageDialog(null,"Error en Nombre.");
+            nameText.requestFocusInWindow();
         }
             
-        
-        
+       return check; 
     }
             
     public void connection()
@@ -288,7 +304,7 @@ public class AccessControl extends javax.swing.JFrame {
         labelState.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelState.setForeground(new java.awt.Color(255, 255, 255));
         labelState.setText("Estado:");
-        getContentPane().add(labelState, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 70, 30));
+        getContentPane().add(labelState, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 70, 30));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -302,7 +318,7 @@ public class AccessControl extends javax.swing.JFrame {
                 statusComboBoxActionPerformed(evt);
             }
         });
-        getContentPane().add(statusComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, 220, 30));
+        getContentPane().add(statusComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 400, 220, 30));
 
         ocupationComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         ocupationComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estudiante", "Profesor", "Administrativo", "Visitante" }));
@@ -327,12 +343,12 @@ public class AccessControl extends javax.swing.JFrame {
         departmentComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ciencias y computación", "Física", "Matemáticas", "Industrial", "Mecánica Eléctrica", "Electrónica", "Química", "Farmacobiología", "Civil y Topografía" }));
         departmentComboBox.setSelectedIndex(-1);
-        getContentPane().add(departmentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, 220, 30));
+        getContentPane().add(departmentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 400, 220, 30));
 
         labelDepartment.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelDepartment.setForeground(new java.awt.Color(255, 255, 255));
         labelDepartment.setText("Departamento:");
-        getContentPane().add(labelDepartment, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 110, 30));
+        getContentPane().add(labelDepartment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 110, 30));
 
         jSeparator1.setBackground(new java.awt.Color(204, 204, 255));
         jSeparator1.setForeground(new java.awt.Color(204, 204, 255));
@@ -340,10 +356,10 @@ public class AccessControl extends javax.swing.JFrame {
         jSeparator1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), null));
         jSeparator1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jSeparator1.setOpaque(true);
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, 350, 10));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 170, 350, 10));
 
         modelText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(modelText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, 130, 30));
+        getContentPane().add(modelText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, 130, 30));
 
         platesText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         platesText.addActionListener(new java.awt.event.ActionListener() {
@@ -351,42 +367,42 @@ public class AccessControl extends javax.swing.JFrame {
                 platesTextActionPerformed(evt);
             }
         });
-        getContentPane().add(platesText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, 130, 30));
+        getContentPane().add(platesText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 290, 130, 30));
 
         colorText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(colorText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 370, 130, 30));
+        getContentPane().add(colorText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 330, 130, 30));
 
         brandText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(brandText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 410, 130, 30));
+        getContentPane().add(brandText, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 370, 130, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Modelo:");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Placas:");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 300, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Color:");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Marca:");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 420, -1, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Vehículo:");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 260, -1, -1));
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 220, -1, -1));
 
         typeVcomboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta" }));
-        getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, 130, 30));
+        getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 210, 130, 30));
 
         btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnInsert.setText("Insertar");
