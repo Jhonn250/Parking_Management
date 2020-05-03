@@ -9,6 +9,7 @@ import classes.Person;
 import classes.Student;
 import classes.Teacher;
 import classes.Vehicle;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,7 +19,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,15 +33,12 @@ public class AccessControl extends javax.swing.JFrame {
     Date date = new Date(); //Fecha (hora entrada)
     Date auxDate = new Date();//Fecha (hora salida)
 
-    Random r = new Random();
-    int valorDado = r.nextInt(100);  //
+    private Connection conexion = null; //Objeto de la clase connection
+    private ResultSet result = null; //Objeto de la clase resultSet
+    private Statement statement = null; //Objeto de la clase Statement
+    private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
 
-    private Connection conexion = null; //Objeto de 
-    private ResultSet result = null;
-    private Statement statement = null;
-    private PreparedStatement ps = null;
-
-    private String query = "";
+    
 
     private int idPark = 1;
 
@@ -78,9 +75,39 @@ public class AccessControl extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         defaultInfo();
-        connection();
+        
 
     }
+    
+    
+    public void connection() {
+        String url = "jdbc:postgresql://localhost:5432/parkingManagement";
+        /*Direccion por default en donde se
+        encuentra la base de datos*/
+        String user = "postgres";
+        String password = ".Eduardo0309.";
+        
+        conexion = null;
+        
+        if (conexion != null) {
+            return;
+        }
+
+        try {
+            
+            conexion = DriverManager.getConnection(url, user, password);
+
+            if (conexion != null) //Verificacion para saber si se conecto correctamente
+            {
+                System.out.println("Conectando a la base de datos\n");
+                JOptionPane.showMessageDialog(null, "Conexión exitosa");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error de conexion: " + e.getMessage() + "\n");
+        }
+    }
+
 
     public boolean isValidInfoAdministrative() {
         boolean check = false;
@@ -121,6 +148,28 @@ public class AccessControl extends javax.swing.JFrame {
         }
 
         return check;
+    }
+    
+    public void clearTxt()
+    {
+        idText.setText("");
+        nameText.setText("");
+        lastText.setText("");
+        phoneText.setText("");
+        ocupationComboBox.setSelectedIndex(-1);
+        
+        typeVcomboBox.setSelectedIndex(-1);
+        platesText.setText("");
+        brandText.setText("");
+        colorText.setText("");
+        modelText.getText();
+        careerText.setText("");
+        statusComboBox.setSelectedIndex(-1);
+        careerText.setText("");
+        statusComboBox.setSelectedIndex(-1);
+        
+        departmentComboBox.setSelectedIndex(-1);
+        areaComboBox.setSelectedIndex(-1);
     }
 
     public boolean isValidInfoTeacher() {
@@ -213,31 +262,7 @@ public class AccessControl extends javax.swing.JFrame {
         return check;
     }
 
-    public void connection() {
-        String url = "jdbc:postgresql://localhost:5432/parkingManagement";
-        /*Direccion por default en donde se
-        encuentra la base de datos*/
-        String user = "postgres";
-        String password = ".Eduardo0309.";
-
-        if (conexion != null) {
-            return;
-        }
-
-        try {
-            Class.forName("org.postgresql.Driver");
-            conexion = DriverManager.getConnection(url, user, password);
-
-            if (conexion != null) //Verificacion para saber si se conecto correctamente
-            {
-                System.out.println("Conectando a la base de datos\n");
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error de conexion: " + e.getMessage() + "\n");
-        }
-    }
-
+    
     public int indexComboBox() {
         return ocupationComboBox.getSelectedIndex();
 
@@ -319,7 +344,7 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         typeVcomboBox = new javax.swing.JComboBox<>();
         btnInsert = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         searchText = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnSerach = new javax.swing.JButton();
@@ -491,9 +516,14 @@ public class AccessControl extends javax.swing.JFrame {
         });
         getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, 90, 30));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
-        jButton1.setText("Actualizar");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 450, -1, 30));
+        btnUpdate.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnUpdate.setText("Actualizar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 450, -1, 30));
 
         searchText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -575,7 +605,7 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        
+        connection();
         try {
 
             id = idText.getText();
@@ -594,8 +624,9 @@ public class AccessControl extends javax.swing.JFrame {
             type = (String) typeVcomboBox.getSelectedItem();
 
             statement = conexion.createStatement();
+            
             department = (String) departmentComboBox.getSelectedItem();
-
+            area = (String) areaComboBox.getSelectedItem();
             if (indexComboBox() == 0 && isValidInfoStudent()) {
                 long time = date.getTime();
                 int idPark = 0;
@@ -611,13 +642,16 @@ public class AccessControl extends javax.swing.JFrame {
                 long time2 = auxDate.getTime();
                 Timestamp ts2 = new Timestamp(time2);
 
-                int park = statement.executeUpdate("INSERT INTO estacionamiento values ('" + valorDado + "','" + plates + "','" + ts + "',"
+                int park = statement.executeUpdate("INSERT INTO estacionamiento (placas_vehiculo, hora_llegada, hora_salida, tipo) values ('" + plates + "','" + ts + "',"
                         + "'" + ts2 + "', '" + type + "');");
 
                 if (alumno == 1) {
                     System.out.println("Registro agregado\n");
+                    JOptionPane.showMessageDialog(null, "ESTUDIANTE agregado con éxito");
+                    clearTxt();
                 } else {
                     System.out.println("El registro no se pudo agregar\n");
+                    clearTxt();
                 }
 
             } else if (indexComboBox() == 1 && isValidInfoTeacher()) {
@@ -633,12 +667,15 @@ public class AccessControl extends javax.swing.JFrame {
                 long time2 = date.getTime();
                 Timestamp ts2 = new Timestamp(time2);
 
-                int park = statement.executeUpdate("INSERT INTO estacionamiento values ('" + valorDado + "','" + plates + "','" + ts + "',"
+                int park = statement.executeUpdate("INSERT INTO estacionamiento (placas_vehiculo, hora_llegada, hora_salida, tipo) values ('"+ plates + "','" + ts + "',"
                         + "'" + ts2 + "', '" + type + "');");
                 if (profesor == 1) {
                     System.out.println("Registro agregado\n");
+                    JOptionPane.showMessageDialog(null, "PROFESOR agregado con éxito");
+                    clearTxt();
                 } else {
                     System.out.println("El registro no se pudo agregar\n");
+                    clearTxt();
                 }
 
             } else if (indexComboBox() == 2 && isValidInfoAdministrative()) {
@@ -649,18 +686,21 @@ public class AccessControl extends javax.swing.JFrame {
                         + "'" + lastName + "', '" + name + "','" + plates + "');");
 
                 int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '" + model + "' , color = '" + color + "', tipo_vehiculo = '" + type + "'"
-                        + "WHERE codigo_profesor = '" + idText.getText() + "';");
+                        + "WHERE codigo_administrativo = '" + idText.getText() + "';");
 
                 long time2 = date.getTime();
                 Timestamp ts2 = new Timestamp(time2);
 
-                int park = statement.executeUpdate("INSERT INTO estacionamiento values ('" + valorDado + "','" + plates + "','" + ts + "',"
+                int park = statement.executeUpdate("INSERT INTO estacionamiento (placas_vehiculo, hora_llegada, hora_salida, tipo) values ('" + plates + "','" + ts + "',"
                         + "'" + ts2 + "', '" + type + "');");
 
                 if (administrativo == 1) {
                     System.out.println("Registro agregado\n");
+                    JOptionPane.showMessageDialog(null, "ADMINISTRATIVO agregado con éxito");
+                    clearTxt();
                 } else {
                     System.out.println("El registro no se pudo agregar\n");
+                    clearTxt();
                 }
             }
 
@@ -768,6 +808,109 @@ public class AccessControl extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchTextActionPerformed
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        
+        
+        if(indexComboBox()!=-1)
+        {
+            if(indexComboBox() == 0){
+                try {
+
+                    ps = conexion.prepareStatement("UPDATE alumnos SET nombre_est = ?, apellidos_est = ?"
+                            + ", carrera = ?, estado_est = ?, celular_est = ?, placas_vehiculo = ? WHERE codigo_alumno = ?");
+                    
+                    ps.setString(1, nameText.getText());
+                    ps.setString(2, lastText.getText());
+                    ps.setString(3, careerText.getText());
+                    ps.setString(4, (String) statusComboBox.getSelectedItem());
+                    ps.setString(5, phoneText.getText());
+                    ps.setString(6, idText.getText());
+                    
+                     
+                    result = ps.executeQuery();
+                    
+                    int vehicle = statement.executeUpdate("UPDATE vehiculos SET modelo = '" + model + "' , color = '" + color + "', tipo_vehiculo = '" + type + "'"
+                        + "WHERE codigo_alumno = '" + idText.getText() + "';");
+                    
+
+                    if(result.next()) //Validar si hay un siguiente registro
+                    {
+                        idText.setText(result.getString("codigo_alumno"));
+                        nameText.setText(result.getString("nombre_est"));
+                        lastText.setText(result.getString("apellidos_est"));
+                        careerText.setText(result.getString("carrera"));
+                        statusComboBox.setSelectedItem(result.getString("estado_est"));
+                        phoneText.setText(result.getString("celular_est"));
+                        platesText.setText(result.getString("placas_vehiculo"));
+
+                    }else {
+                JOptionPane.showMessageDialog(null, "No existe un ALUMNO con el código ingresado.");
+            }   
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else if(indexComboBox() == 1){
+            try {
+
+                    ps = conexion.prepareStatement("SELECT * FROM profesores WHERE codigo_profesor = ?");
+                    ps.setString(1, searchText.getText());
+                    result = ps.executeQuery();
+
+                    if(result.next()) //Validar si hay un siguiente registro
+                    {
+                        idText.setText(result.getString("codigo_profesor"));
+                        nameText.setText(result.getString("nombre_prof"));
+                        lastText.setText(result.getString("apellidos_prof"));
+                        departmentComboBox.setSelectedItem(result.getString("departamento"));
+                        phoneText.setText(result.getString("celular_prof"));
+                        platesText.setText(result.getString("placas_vehiculo"));
+
+                    }else {
+                JOptionPane.showMessageDialog(null, "No existe un PROFESOR con el código ingresado");
+            }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
+                }    
+                        
+                  
+            }  else if(indexComboBox() == 2){
+                try {
+
+                    ps = conexion.prepareStatement("SELECT * FROM administrativos WHERE codigo_administrativo = ?");
+                    ps.setString(1, searchText.getText());
+                    result = ps.executeQuery();
+
+                    if(result.next()) //Validar si hay un siguiente registro
+                    {
+                        idText.setText(result.getString("codigo_admnistrativo"));
+                        phoneText.setText(result.getString("celular_adm"));
+                        areaComboBox.setSelectedItem(result.getString("area"));
+                        lastText.setText(result.getString("apellidos_adm"));
+                        nameText.setText(result.getString("nombre_adm"));
+                        platesText.setText(result.getString("placas_vehiculo"));
+
+                    } {
+                JOptionPane.showMessageDialog(null, "No existe un ADMNISTRATIVO con el código ingresado");
+            }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
+                }    
+                
+            } 
+            
+        }
+        else{
+                JOptionPane.showMessageDialog(null, "Por favor, selecciona una ocupación.");
+                ocupationComboBox.requestFocusInWindow();
+            }
+        
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -808,11 +951,11 @@ public class AccessControl extends javax.swing.JFrame {
     private javax.swing.JTextField brandText;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnSerach;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JTextField careerText;
     private javax.swing.JTextField colorText;
     private javax.swing.JComboBox<String> departmentComboBox;
     private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

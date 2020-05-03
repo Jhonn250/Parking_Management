@@ -6,6 +6,14 @@
 package interfaz;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import java.util.logging.Logger;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
 
 /**
  *
@@ -13,12 +21,44 @@ import java.sql.DriverManager;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+    private Connection conexion = null; //Objeto de la clase connection
+    private ResultSet result = null; //Objeto de la clase resultSet
+    private Statement statement = null; //Objeto de la clase Statement
+    private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
+    
+    
+    
+    
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
+    
+    public void connection() {
+        String url = "jdbc:postgresql://localhost:5432/parkingManagement";
+        /*Direccion por default en donde se
+        encuentra la base de datos*/
+        String user = "postgres";
+        String password = ".Eduardo0309.";
+
+        if (conexion != null) {
+            return;
+        }
+
+        try {
+            Class.forName("org.postgresql.Driver");
+            conexion = DriverManager.getConnection(url, user, password);
+
+            if (conexion != null) //Verificacion para saber si se conecto correctamente
+            {
+                System.out.println("Conectando a la base de datos\n");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error de conexion: " + e.getMessage() + "\n");
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,28 +69,22 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        userTXT = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnNew = new javax.swing.JButton();
         btnIngresar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        passwordTXT = new javax.swing.JPasswordField();
+        userText = new javax.swing.JTextField();
+        passText = new javax.swing.JPasswordField();
+        jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(userTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 250, 30));
-
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 3, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("PASSWORD:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, 110, 30));
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 3, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("EMAIL:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 80, 30));
+        jLabel4.setText("CONTRASEÑA:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 150, 30));
 
         btnNew.setText("Registro");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
@@ -71,7 +105,13 @@ public class Login extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/login.png"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 30, 220, 210));
-        getContentPane().add(passwordTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 250, 30));
+        getContentPane().add(userText, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 250, 30));
+        getContentPane().add(passText, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 250, 30));
+
+        jLabel6.setFont(new java.awt.Font("Lucida Grande", 3, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("USUARIO:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 100, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background.jpg"))); // NOI18N
         jLabel1.setRequestFocusEnabled(false);
@@ -85,6 +125,31 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        connection();
+        try {
+
+                    ps = conexion.prepareStatement("SELECT * FROM guardias WHERE usuario = ? AND contrasenia = ?");
+                    ps.setString(1, userText.getText());
+                    ps.setString(2, passText.getText());
+                    result = ps.executeQuery();
+
+                    if(result.next()) //Validar si hay un siguiente registro
+                    {
+                        JOptionPane.showMessageDialog(null, "Bienvenido...");
+                        AccessControl navigationWindow;
+                        navigationWindow = new AccessControl();
+                        navigationWindow.show();
+                        this.dispose();
+                        
+
+                    }else
+                    {
+                        JOptionPane.showMessageDialog(null, "Usuario y/o contraseña incorrectas.");
+                        
+                    }
+            } catch (SQLException ex) {
+                    Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
+                } 
         
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -127,10 +192,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnNew;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPasswordField passwordTXT;
-    private javax.swing.JTextField userTXT;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPasswordField passText;
+    private javax.swing.JTextField userText;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,17 +5,62 @@
  */
 package interfaz;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author atlas
  */
 public class AdminRegister extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AdminRegister
-     */
+    private Connection conexion = null; //Objeto de la clase connection
+    private ResultSet result = null; //Objeto de la clase resultSet
+    private Statement statement = null; //Objeto de la clase Statement
+    private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
+    
+    String user = "";
+    String password = "";
+    String field = "";
     public AdminRegister() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
+    }
+    
+     public void connection() {
+        String url = "jdbc:postgresql://localhost:5432/parkingManagement";
+        /*Direccion por default en donde se
+        encuentra la base de datos*/
+        String user = "postgres";
+        String password = ".Eduardo0309.";
+        
+        
+        
+        if (conexion != null) {
+            return;
+        }
+
+        try {
+            
+            conexion = DriverManager.getConnection(url, user, password);
+
+            if (conexion != null) //Verificacion para saber si se conecto correctamente
+            {
+                System.out.println("Conectando a la base de datos\n");
+                JOptionPane.showMessageDialog(null, "Conexión exitosa");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error de conexion: " + e.getMessage() + "\n");
+        }
     }
 
     /**
@@ -31,8 +76,9 @@ public class AdminRegister extends javax.swing.JFrame {
         passField = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnInsert = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        fieldText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,20 +97,43 @@ public class AdminRegister extends javax.swing.JFrame {
         jLabel3.setText("Nombre de usuario:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
-        jButton1.setText("Registrar");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 390, 90, 40));
+        btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnInsert.setText("Registrar");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 390, 90, 40));
 
         jLabel4.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("REGISTRO DE ADMINISTRADORES:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 510, 40));
+        getContentPane().add(fieldText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 200, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        // TODO add your handling code here:
+        connection();
+        try{
+            user = userText.getText();
+            password = passField.getText();
+            field = fieldText.getText();
+            
+            statement = conexion.createStatement();
+            
+            int guardia = statement.executeUpdate("INSERT INTO guardias values ('" + user + "','" + password + "','" + field + "');");
+           }catch (Exception e) {
+            System.out.println("Error de conexion: " + e.getMessage() + "\n");
+        }
+        
+    }//GEN-LAST:event_btnInsertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -102,7 +171,8 @@ public class AdminRegister extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnInsert;
+    private javax.swing.JTextField fieldText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
