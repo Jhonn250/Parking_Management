@@ -16,6 +16,7 @@ public class menu extends javax.swing.JFrame {
      */
     public menu() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -74,7 +75,7 @@ public class menu extends javax.swing.JFrame {
         getContentPane().add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 200, 80));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/menu.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 480));
 
         setSize(new java.awt.Dimension(800, 522));
         setLocationRelativeTo(null);

@@ -167,9 +167,9 @@ public class AccessControl extends javax.swing.JFrame {
     }
 
     public void clearTxt() {
-        
+
         searchText.setText("");
-        
+
         idText.setText("");
         nameText.setText("");
         lastText.setText("");
@@ -185,7 +185,6 @@ public class AccessControl extends javax.swing.JFrame {
         statusComboBox.setSelectedIndex(-1);
         careerText.setText("");
         statusComboBox.setSelectedIndex(-1);
-
 
         departmentComboBox.setSelectedIndex(-1);
         areaComboBox.setSelectedIndex(-1);
@@ -373,22 +372,20 @@ public class AccessControl extends javax.swing.JFrame {
                 statusComboBox.setSelectedItem(result.getString("estado_est"));
                 phoneText.setText(result.getString("celular_est"));
                 platesText.setText(result.getString("placas_vehiculo"));
-                
 
             } else {
                 JOptionPane.showMessageDialog(null, "No existe un ALUMNO con el código ingresado.");
 
             }
-           
 
         } catch (SQLException ex) {
             Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     public void searchTeacher() {
-        
+
         try {
 
             ps = conexion.prepareStatement("SELECT * FROM profesores WHERE codigo_profesor = ?");
@@ -403,7 +400,6 @@ public class AccessControl extends javax.swing.JFrame {
                 departmentComboBox.setSelectedItem(result.getString("departamento"));
                 phoneText.setText(result.getString("celular_prof"));
                 platesText.setText(result.getString("placas_vehiculo"));
-                
 
             } else {
                 JOptionPane.showMessageDialog(null, "No existe un PROFESOR con el código ingresado");
@@ -413,12 +409,11 @@ public class AccessControl extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
     }
 
     public void searchAdministrative() {
-       
+
         try {
 
             ps = conexion.prepareStatement("SELECT* FROM administrativos WHERE codigo_administrativo = ?");
@@ -433,16 +428,15 @@ public class AccessControl extends javax.swing.JFrame {
                 lastText.setText(result.getString("apellidos_adm"));
                 nameText.setText(result.getString("nombre_adm"));
                 platesText.setText(result.getString("placas_vehiculo"));
-                
-            }else
-            {
+
+            } else {
                 JOptionPane.showMessageDialog(null, "No existe un ADMNISTRATIVO con el código ingresado");
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     public void updateStudent() {
@@ -614,6 +608,7 @@ public class AccessControl extends javax.swing.JFrame {
         btnNew = new javax.swing.JButton();
         btnCANCEL = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -781,7 +776,7 @@ public class AccessControl extends javax.swing.JFrame {
                 btnInsertActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 450, 90, 30));
+        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, 100, 30));
 
         btnUpdate.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnUpdate.setText("Actualizar");
@@ -790,7 +785,7 @@ public class AccessControl extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 450, -1, 30));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 450, -1, 30));
 
         searchText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -820,7 +815,7 @@ public class AccessControl extends javax.swing.JFrame {
                 btnNewActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNew, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 90, 30));
+        getContentPane().add(btnNew, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 90, 30));
 
         btnCANCEL.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnCANCEL.setText("Cancelar");
@@ -839,6 +834,15 @@ public class AccessControl extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, -1, 40));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, 90, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/greyBg.jpg"))); // NOI18N
@@ -1063,7 +1067,7 @@ public class AccessControl extends javax.swing.JFrame {
                     ocupationComboBox.setEnabled(true);
                     typeVcomboBox.setEnabled(true);
                     platesText.setEnabled(true);
-                    
+
                 default:
                     clearTxt();
 
@@ -1086,6 +1090,7 @@ public class AccessControl extends javax.swing.JFrame {
     private void btnCANCELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCANCELActionPerformed
         // TODO add your handling code here:
         desactivate();
+        clearTxt();
     }//GEN-LAST:event_btnCANCELActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -1095,6 +1100,70 @@ public class AccessControl extends javax.swing.JFrame {
         menuWindow.show();
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        connection();
+        int res = 0;
+        try {
+            if (indexComboBox() != -1) {
+
+                if (indexComboBox() == 0) {
+                    ps = conexion.prepareStatement("DELETE FROM alumnos WHERE codigo_alumno = ?");
+                    ps.setString(1, idText.getText());
+
+                    res = ps.executeUpdate();
+
+                    ps = conexion.prepareStatement("DELETE FROM vehiculos WHERE codigo_alumno = ?");
+                    ps.setString(1, idText.getText());
+
+                    res = ps.executeUpdate();
+
+                    if (res > 0) {
+                        JOptionPane.showMessageDialog(null, "ALUMNO eliminado con éxito");
+                        clearTxt();
+                    }
+                } else if (indexComboBox() == 1) {
+
+                    ps = conexion.prepareStatement("DELETE FROM profesores WHERE codigo_profesor = ?");
+                    ps.setString(1, idText.getText());
+
+                    res = ps.executeUpdate();
+
+                    ps = conexion.prepareStatement("DELETE FROM vehiculos WHERE codigo_profesor = ?");
+                    ps.setString(1, idText.getText());
+
+                    res = ps.executeUpdate();
+                    if (res > 0) {
+                        JOptionPane.showMessageDialog(null, "MAESTRO eliminado con éxito");
+                        clearTxt();
+                    }
+                } else if (indexComboBox() == 2) {
+
+                    ps = conexion.prepareStatement("DELETE FROM administradors WHERE codigo_administrativo = ?");
+                    ps.setString(1, idText.getText());
+                    res = ps.executeUpdate();
+
+                    ps = conexion.prepareStatement("DELETE FROM vehiculos WHERE codigo_estudiante = ?");
+                    ps.setString(1, idText.getText());
+
+                    res = ps.executeUpdate();
+
+                    if (res > 0) {
+                        JOptionPane.showMessageDialog(null, "MAESTRO eliminado con éxito");
+                        clearTxt();
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor selecciona una ocupación.");
+                ocupationComboBox.requestFocusInWindow();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1144,6 +1213,7 @@ public class AccessControl extends javax.swing.JFrame {
     private javax.swing.JTextField colorText;
     private javax.swing.JComboBox<String> departmentComboBox;
     private javax.swing.JTextField idText;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
