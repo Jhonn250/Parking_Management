@@ -33,8 +33,33 @@ public class AdminRegister extends javax.swing.JFrame {
     public AdminRegister() {
         initComponents();
         this.setLocationRelativeTo(null);
+        deactivate();
 
     }
+    
+    
+    public void deactivate(){
+        btnInsert.setEnabled(false);
+        jButton1.setEnabled(false);
+        
+        userText.setEnabled(false);
+        passField.setEnabled(false);
+        fieldText.setEnabled(false);
+        
+        
+    }
+    
+    public void activate(){
+        btnInsert.setEnabled(true);
+        jButton1.setEnabled(true);
+        
+        userText.setEnabled(true);
+        passField.setEnabled(true);
+        fieldText.setEnabled(true);
+        
+        
+    }
+    
 
     public void connection() {
         String url = "jdbc:postgresql://localhost:5432/parkingManagement";
@@ -103,13 +128,15 @@ public class AdminRegister extends javax.swing.JFrame {
         fieldText = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(userText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 200, 30));
-        getContentPane().add(passField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 200, 30));
+        getContentPane().add(userText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 210, 30));
+        getContentPane().add(passField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 210, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -121,20 +148,20 @@ public class AdminRegister extends javax.swing.JFrame {
         jLabel3.setText("Nombre de usuario:");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
-        btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnInsert.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         btnInsert.setText("Registrar");
         btnInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsertActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 90, 40));
+        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 430, 130, 60));
 
         jLabel4.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("REGISTRO DE ADMINISTRADORES:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 510, 40));
-        getContentPane().add(fieldText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 200, 30));
+        getContentPane().add(fieldText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 210, 30));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,6 +176,24 @@ public class AdminRegister extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(695, 10, 100, 50));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 430, 130, 60));
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        jButton2.setText("Nuevo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 430, 130, 60));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
@@ -186,6 +231,16 @@ public class AdminRegister extends javax.swing.JFrame {
         menuWindow.show();
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        deactivate();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        activate();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,6 +281,8 @@ public class AdminRegister extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnInsert;
     private javax.swing.JTextField fieldText;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
