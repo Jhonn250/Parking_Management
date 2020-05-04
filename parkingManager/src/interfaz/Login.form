@@ -43,6 +43,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnNew">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="3"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Registro"/>
       </Properties>
       <Events>
@@ -56,6 +59,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnIngresar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="3"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="LOGIN"/>
         <Property name="focusTraversalPolicyProvider" type="boolean" value="true"/>
       </Properties>
@@ -64,7 +70,7 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="340" y="350" width="110" height="50"/>
+          <AbsoluteConstraints x="340" y="350" width="130" height="50"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -81,6 +87,11 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JTextField" name="userText">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="280" y="250" width="250" height="30"/>
@@ -88,6 +99,11 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JPasswordField" name="passText">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="280" y="300" width="250" height="30"/>

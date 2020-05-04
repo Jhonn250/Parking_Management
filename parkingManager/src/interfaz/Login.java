@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package interfaz;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,7 +14,6 @@ import javax.swing.JOptionPane;
 import java.util.logging.Logger;
 import java.sql.SQLException;
 import java.util.logging.Level;
-
 
 /**
  *
@@ -25,15 +25,12 @@ public class Login extends javax.swing.JFrame {
     private ResultSet result = null; //Objeto de la clase resultSet
     private Statement statement = null; //Objeto de la clase Statement
     private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
-    
-    
-    
-    
+
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
+
     public void connection() {
         String url = "jdbc:postgresql://localhost:5432/parkingManagement";
         /*Direccion por default en donde se
@@ -58,7 +55,6 @@ public class Login extends javax.swing.JFrame {
             System.out.println("Error de conexion: " + e.getMessage() + "\n");
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,6 +82,7 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("CONTRASEÑA:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 150, 30));
 
+        btnNew.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnNew.setText("Registro");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +91,7 @@ public class Login extends javax.swing.JFrame {
         });
         getContentPane().add(btnNew, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 450, 90, 40));
 
+        btnIngresar.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnIngresar.setText("LOGIN");
         btnIngresar.setFocusTraversalPolicyProvider(true);
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
@@ -101,11 +99,15 @@ public class Login extends javax.swing.JFrame {
                 btnIngresarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, 110, 50));
+        getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, 130, 50));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/login.png"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 30, 220, 210));
+
+        userText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         getContentPane().add(userText, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 250, 30));
+
+        passText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         getContentPane().add(passText, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 250, 30));
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 3, 18)); // NOI18N
@@ -121,36 +123,37 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        
+        AdminRegister navigationWindow;
+        navigationWindow = new AdminRegister();
+        navigationWindow.show();
+        this.dispose();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         connection();
         try {
 
-                    ps = conexion.prepareStatement("SELECT * FROM guardias WHERE usuario = ? AND contrasenia = ?");
-                    ps.setString(1, userText.getText());
-                    ps.setString(2, passText.getText());
-                    result = ps.executeQuery();
+            ps = conexion.prepareStatement("SELECT * FROM guardias WHERE usuario = ? AND contrasenia = ?");
+            ps.setString(1, userText.getText());
+            ps.setString(2, passText.getText());
+            result = ps.executeQuery();
 
-                    if(result.next()) //Validar si hay un siguiente registro
-                    {
-                        JOptionPane.showMessageDialog(null, "Bienvenido...");
-                        AccessControl navigationWindow;
-                        navigationWindow = new AccessControl();
-                        navigationWindow.show();
-                        this.dispose();
-                        
+            if (result.next()) //Validar si hay un siguiente registro
+            {
+                JOptionPane.showMessageDialog(null, "Bienvenido...");
+                AccessControl navigationWindow;
+                navigationWindow = new AccessControl();
+                navigationWindow.show();
+                this.dispose();
 
-                    }else
-                    {
-                        JOptionPane.showMessageDialog(null, "Usuario y/o contraseña incorrectas.");
-                        
-                    }
-            } catch (SQLException ex) {
-                    Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
-                } 
-        
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario y/o contraseña incorrectas.");
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

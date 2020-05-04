@@ -25,31 +25,30 @@ public class AdminRegister extends javax.swing.JFrame {
     private ResultSet result = null; //Objeto de la clase resultSet
     private Statement statement = null; //Objeto de la clase Statement
     private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
-    
+
     String user = "";
     String password = "";
     String field = "";
+
     public AdminRegister() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
     }
-    
-     public void connection() {
+
+    public void connection() {
         String url = "jdbc:postgresql://localhost:5432/parkingManagement";
         /*Direccion por default en donde se
         encuentra la base de datos*/
         String user = "postgres";
         String password = ".Eduardo0309.";
-        
-        
-        
+
         if (conexion != null) {
             return;
         }
 
         try {
-            
+
             conexion = DriverManager.getConnection(url, user, password);
 
             if (conexion != null) //Verificacion para saber si se conecto correctamente
@@ -61,6 +60,29 @@ public class AdminRegister extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error de conexion: " + e.getMessage() + "\n");
         }
+    }
+
+    public boolean isValidUser() {
+        boolean check = false;
+        if (userText.getText().length() > 0) {
+            if (passField.getText().length() > 0) {
+                if (fieldText.getText().length() > 0) {
+                    check = true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error en Campo.");
+                    fieldText.requestFocusInWindow();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en Contraseña.");
+                passField.requestFocusInWindow();
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error en Nombre de Usuario.");
+            userText.requestFocusInWindow();
+        }
+        
+        return check;
     }
 
     /**
@@ -79,6 +101,8 @@ public class AdminRegister extends javax.swing.JFrame {
         btnInsert = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         fieldText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -89,8 +113,8 @@ public class AdminRegister extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Contraseña:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+        jLabel2.setText("Campo:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -104,13 +128,27 @@ public class AdminRegister extends javax.swing.JFrame {
                 btnInsertActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 390, 90, 40));
+        getContentPane().add(btnInsert, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 90, 40));
 
         jLabel4.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("REGISTRO DE ADMINISTRADORES:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 510, 40));
         getContentPane().add(fieldText, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 200, 30));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Contraseña:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+
+        btnBack.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnBack.setText("Regresar");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 100, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
@@ -121,19 +159,33 @@ public class AdminRegister extends javax.swing.JFrame {
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
         connection();
-        try{
+        try {
             user = userText.getText();
             password = passField.getText();
             field = fieldText.getText();
-            
+
             statement = conexion.createStatement();
             
-            int guardia = statement.executeUpdate("INSERT INTO guardias values ('" + user + "','" + password + "','" + field + "');");
-           }catch (Exception e) {
+            if(isValidUser())
+            {
+                int guardia = statement.executeUpdate("INSERT INTO guardias values ('" + user + "','" + password + "','" + field + "');");
+                
+            }
+
+            
+        } catch (Exception e) {
             System.out.println("Error de conexion: " + e.getMessage() + "\n");
         }
-        
+
     }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        Login navigationWindow;
+        navigationWindow = new Login();
+        navigationWindow.show();
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,12 +223,14 @@ public class AdminRegister extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnInsert;
     private javax.swing.JTextField fieldText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPasswordField passField;
     private javax.swing.JTextField userText;
     // End of variables declaration//GEN-END:variables
