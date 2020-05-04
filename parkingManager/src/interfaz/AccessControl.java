@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -52,7 +50,6 @@ public class AccessControl extends javax.swing.JFrame {
 
     //Vehicle
     private String model = "";
-    private String brand = ""; //marca
     private String type = ""; //auto-motocicleta
     private String plates = "";
     private String color = "";
@@ -133,6 +130,7 @@ public class AccessControl extends javax.swing.JFrame {
     }
 
     public void activate() {
+        searchText.setEnabled(true);
         idText.setEnabled(true);
         nameText.setEnabled(true);
         lastText.setEnabled(true);
@@ -142,30 +140,65 @@ public class AccessControl extends javax.swing.JFrame {
         statusComboBox.setSelectedIndex(-1);
         areaComboBox.setEnabled(true);
         departmentComboBox.setEnabled(true);
-        brandText.setEnabled(true);
+        
 
         platesText.setEnabled(true);
         modelText.setEnabled(true);
         colorText.setEnabled(true);
         typeVcomboBox.setEnabled(true);
+        
+        btnInsert.setEnabled(true);
+        btnSearch.setEnabled(true);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
 
     }
 
     public void desactivate() {
+        searchText.setEnabled(false);
         idText.setEnabled(false);
         nameText.setEnabled(false);
         lastText.setEnabled(false);
         phoneText.setEnabled(false);
         ocupationComboBox.setEnabled(false);
-        brandText.setEnabled(false);
 
         platesText.setEnabled(false);
         modelText.setEnabled(false);
         colorText.setEnabled(false);
         typeVcomboBox.setEnabled(false);
+        
+        btnInsert.setEnabled(false);
+        btnSearch.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+       
 
     }
-
+    
+    public void hiddeLabelVehicles()
+    {
+        typeVcomboBox.setVisible(false);
+        jLabel9.setVisible(false);
+        jLabel12.setVisible(false);
+        jLabel15.setVisible(false);
+        
+        colorText.setVisible(false);
+        modelText.setVisible(false);
+        
+    }
+    
+     public void showLabelVehicles()
+    {
+        typeVcomboBox.setVisible(true);
+        jLabel9.setVisible(true);
+        jLabel12.setVisible(true);
+        jLabel15.setVisible(true);
+        
+        colorText.setVisible(true);
+        modelText.setVisible(true);
+        
+    }
+    
     public void clearTxt() {
 
         searchText.setText("");
@@ -178,7 +211,7 @@ public class AccessControl extends javax.swing.JFrame {
 
         typeVcomboBox.setSelectedIndex(-1);
         platesText.setText("");
-        brandText.setText("");
+        
         colorText.setText("");
         modelText.setText("");
         careerText.setText("");
@@ -593,11 +626,9 @@ public class AccessControl extends javax.swing.JFrame {
         modelText = new javax.swing.JTextField();
         platesText = new javax.swing.JTextField();
         colorText = new javax.swing.JTextField();
-        brandText = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         typeVcomboBox = new javax.swing.JComboBox<>();
         btnInsert = new javax.swing.JButton();
@@ -608,7 +639,7 @@ public class AccessControl extends javax.swing.JFrame {
         btnNew = new javax.swing.JButton();
         btnCANCEL = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -663,7 +694,7 @@ public class AccessControl extends javax.swing.JFrame {
         labelCareer.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCareer.setForeground(new java.awt.Color(255, 255, 255));
         labelCareer.setText("Carrera:");
-        getContentPane().add(labelCareer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 80, 20));
+        getContentPane().add(labelCareer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 80, 20));
 
         labelState.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelState.setForeground(new java.awt.Color(255, 255, 255));
@@ -697,7 +728,7 @@ public class AccessControl extends javax.swing.JFrame {
         labelArea.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelArea.setForeground(new java.awt.Color(255, 255, 255));
         labelArea.setText("Área:");
-        getContentPane().add(labelArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 70, 20));
+        getContentPane().add(labelArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 70, 20));
 
         areaComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         areaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Control Escolar", "Orientación", "Coordinación" }));
@@ -731,13 +762,10 @@ public class AccessControl extends javax.swing.JFrame {
                 platesTextActionPerformed(evt);
             }
         });
-        getContentPane().add(platesText, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 260, 130, 30));
+        getContentPane().add(platesText, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 130, 30));
 
         colorText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         getContentPane().add(colorText, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 340, 130, 30));
-
-        brandText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(brandText, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 380, 130, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -747,27 +775,22 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Placas:");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Color:");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 350, -1, -1));
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Marca:");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, -1, -1));
-
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Vehículo:");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, -1, -1));
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 270, -1, -1));
 
         typeVcomboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta" }));
         typeVcomboBox.setSelectedIndex(-1);
-        getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 130, 30));
+        getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 260, 130, 30));
 
         btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         btnInsert.setText("Insertar");
@@ -835,14 +858,14 @@ public class AccessControl extends javax.swing.JFrame {
         });
         getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, -1, 40));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
-        jButton1.setText("Eliminar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnDelete.setText("Eliminar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, 90, 30));
+        getContentPane().add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, 90, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/greyBg.jpg"))); // NOI18N
@@ -912,7 +935,6 @@ public class AccessControl extends javax.swing.JFrame {
 
             model = modelText.getText();
             plates = platesText.getText();
-            brand = brandText.getText();
             color = colorText.getText();
             type = (String) typeVcomboBox.getSelectedItem();
 
@@ -1010,6 +1032,7 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+        btnUpdate.setEnabled(false);
         conexion = null;
         connection();
         if (indexComboBox() != -1) {
@@ -1017,17 +1040,19 @@ public class AccessControl extends javax.swing.JFrame {
                 searchStudent();
                 idText.setEnabled(false);
                 platesText.setEnabled(false);
+                hiddeLabelVehicles();
 
             } else if (indexComboBox() == 1) {
                 searchTeacher();
                 idText.setEnabled(false);
                 platesText.setEnabled(false);
+                hiddeLabelVehicles();
 
             } else if (indexComboBox() == 2) {
                 searchAdministrative();
                 idText.setEnabled(false);
                 platesText.setEnabled(false);
-
+                hiddeLabelVehicles();
             }
 
         } else {
@@ -1085,6 +1110,7 @@ public class AccessControl extends javax.swing.JFrame {
         // TODO add your handling code here:
         activate();
         clearTxt();
+        showLabelVehicles();
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnCANCELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCANCELActionPerformed
@@ -1101,7 +1127,7 @@ public class AccessControl extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         connection();
         int res = 0;
@@ -1163,7 +1189,7 @@ public class AccessControl extends javax.swing.JFrame {
             Logger.getLogger(AccessControl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1202,9 +1228,9 @@ public class AccessControl extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> areaComboBox;
-    private javax.swing.JTextField brandText;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCANCEL;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSearch;
@@ -1213,12 +1239,10 @@ public class AccessControl extends javax.swing.JFrame {
     private javax.swing.JTextField colorText;
     private javax.swing.JComboBox<String> departmentComboBox;
     private javax.swing.JTextField idText;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
