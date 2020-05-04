@@ -60,6 +60,7 @@ public class AccessControl extends javax.swing.JFrame {
     public AccessControl() {
         initComponents();
         this.setLocationRelativeTo(null);
+        desactivate();
         defaultInfo();
 
     }
@@ -141,6 +142,7 @@ public class AccessControl extends javax.swing.JFrame {
         statusComboBox.setSelectedIndex(-1);
         areaComboBox.setEnabled(true);
         departmentComboBox.setEnabled(true);
+        brandText.setEnabled(true);
 
         platesText.setEnabled(true);
         modelText.setEnabled(true);
@@ -155,6 +157,7 @@ public class AccessControl extends javax.swing.JFrame {
         lastText.setEnabled(false);
         phoneText.setEnabled(false);
         ocupationComboBox.setEnabled(false);
+        brandText.setEnabled(false);
 
         platesText.setEnabled(false);
         modelText.setEnabled(false);
@@ -182,6 +185,7 @@ public class AccessControl extends javax.swing.JFrame {
         statusComboBox.setSelectedIndex(-1);
         careerText.setText("");
         statusComboBox.setSelectedIndex(-1);
+
 
         departmentComboBox.setSelectedIndex(-1);
         areaComboBox.setSelectedIndex(-1);
@@ -608,6 +612,7 @@ public class AccessControl extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
+        btnCANCEL = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -765,6 +770,7 @@ public class AccessControl extends javax.swing.JFrame {
 
         typeVcomboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         typeVcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automóvil", "Motocicleta" }));
+        typeVcomboBox.setSelectedIndex(-1);
         getContentPane().add(typeVcomboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 130, 30));
 
         btnInsert.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
@@ -814,6 +820,15 @@ public class AccessControl extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnNew, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 90, 30));
+
+        btnCANCEL.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btnCANCEL.setText("Cancelar");
+        btnCANCEL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCANCELActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCANCEL, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, -1, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/greyBg.jpg"))); // NOI18N
@@ -1057,6 +1072,11 @@ public class AccessControl extends javax.swing.JFrame {
         clearTxt();
     }//GEN-LAST:event_btnNewActionPerformed
 
+    private void btnCANCELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCANCELActionPerformed
+        // TODO add your handling code here:
+        desactivate();
+    }//GEN-LAST:event_btnCANCELActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1095,6 +1115,7 @@ public class AccessControl extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> areaComboBox;
     private javax.swing.JTextField brandText;
+    private javax.swing.JButton btnCANCEL;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSearch;
