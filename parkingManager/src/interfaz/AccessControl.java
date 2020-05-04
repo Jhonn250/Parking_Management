@@ -504,7 +504,7 @@ public class AccessControl extends javax.swing.JFrame {
     public void updatetTeacher() {
         try {
 
-            ps = conexion.prepareStatement("UPDATE alumnos SET nombre_prof = ?, apellidos_prof = ?"
+            ps = conexion.prepareStatement("UPDATE profesores SET nombre_prof = ?, apellidos_prof = ?"
                     + ", departamento = ?, celular_prof = ?, placas_vehiculo = ? WHERE codigo_profesor = ?");
 
             ps.setString(1, nameText.getText());
@@ -942,7 +942,8 @@ public class AccessControl extends javax.swing.JFrame {
 
             department = (String) departmentComboBox.getSelectedItem();
             area = (String) areaComboBox.getSelectedItem();
-            if (indexComboBox() == 0 && isValidInfoStudent() && isValidVehicle()) {
+            
+            if (indexComboBox() == 0 && isValidInfoStudent() == true && isValidVehicle() == true) {
                 long time = date.getTime();
                 int idPark = 0;
                 Timestamp ts = new Timestamp(time);
@@ -1032,7 +1033,7 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
-        btnUpdate.setEnabled(false);
+        btnInsert.setEnabled(false);
         conexion = null;
         connection();
         if (indexComboBox() != -1) {
@@ -1166,17 +1167,17 @@ public class AccessControl extends javax.swing.JFrame {
                     }
                 } else if (indexComboBox() == 2) {
 
-                    ps = conexion.prepareStatement("DELETE FROM administradors WHERE codigo_administrativo = ?");
+                    ps = conexion.prepareStatement("DELETE FROM administrativos WHERE codigo_administrativo = ?");
                     ps.setString(1, idText.getText());
                     res = ps.executeUpdate();
 
-                    ps = conexion.prepareStatement("DELETE FROM vehiculos WHERE codigo_estudiante = ?");
+                    ps = conexion.prepareStatement("DELETE FROM vehiculos WHERE codigo_administrativo = ?");
                     ps.setString(1, idText.getText());
 
                     res = ps.executeUpdate();
 
                     if (res > 0) {
-                        JOptionPane.showMessageDialog(null, "MAESTRO eliminado con éxito");
+                        JOptionPane.showMessageDialog(null, "ADMINISTRATIVO eliminado con éxito");
                         clearTxt();
                     }
 
