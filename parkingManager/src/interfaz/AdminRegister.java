@@ -148,7 +148,7 @@ public class AdminRegister extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 100, 30));
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(695, 10, 100, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
@@ -181,9 +181,9 @@ public class AdminRegister extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        Login navigationWindow;
-        navigationWindow = new Login();
-        navigationWindow.show();
+        menu menuWindow;
+        menuWindow = new menu();
+        menuWindow.show();
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 

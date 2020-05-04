@@ -141,9 +141,9 @@ public class Login extends javax.swing.JFrame {
             if (result.next()) //Validar si hay un siguiente registro
             {
                 JOptionPane.showMessageDialog(null, "Bienvenido...");
-                AccessControl navigationWindow;
-                navigationWindow = new AccessControl();
-                navigationWindow.show();
+                menu menuWindow;
+                menuWindow = new menu();
+                menuWindow.show();
                 this.dispose();
 
             } else {

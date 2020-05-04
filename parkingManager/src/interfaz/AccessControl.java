@@ -613,6 +613,7 @@ public class AccessControl extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         btnCANCEL = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -667,7 +668,7 @@ public class AccessControl extends javax.swing.JFrame {
         labelCareer.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelCareer.setForeground(new java.awt.Color(255, 255, 255));
         labelCareer.setText("Carrera:");
-        getContentPane().add(labelCareer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 80, 20));
+        getContentPane().add(labelCareer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 80, 20));
 
         labelState.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelState.setForeground(new java.awt.Color(255, 255, 255));
@@ -701,7 +702,7 @@ public class AccessControl extends javax.swing.JFrame {
         labelArea.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         labelArea.setForeground(new java.awt.Color(255, 255, 255));
         labelArea.setText("Área:");
-        getContentPane().add(labelArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 70, 20));
+        getContentPane().add(labelArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 70, 20));
 
         areaComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         areaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Control Escolar", "Orientación", "Coordinación" }));
@@ -830,11 +831,21 @@ public class AccessControl extends javax.swing.JFrame {
         });
         getContentPane().add(btnCANCEL, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, -1, 30));
 
+        btnBack.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        btnBack.setText("Regresar");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, -1, 40));
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/background/greyBg.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 520));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
-        pack();
+        setSize(new java.awt.Dimension(800, 522));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void lastTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastTextActionPerformed
@@ -1077,6 +1088,14 @@ public class AccessControl extends javax.swing.JFrame {
         desactivate();
     }//GEN-LAST:event_btnCANCELActionPerformed
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        menu menuWindow;
+        menuWindow = new menu();
+        menuWindow.show();
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1115,6 +1134,7 @@ public class AccessControl extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> areaComboBox;
     private javax.swing.JTextField brandText;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCANCEL;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnNew;
