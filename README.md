@@ -1,6 +1,11 @@
 # Parking_Management
 Control de estacionamiento para estudiantes, administrativos y visitantes dentro de un plantel universitario.
 
+
+# Requerimientos:
+- PostgreSQL
+- OpenJDK 12.0.1.
+
 # Funcionamiento:
 Crear una base de datos en postgreSQL e importar el archivo .backup en la carpeta Database para lograr la comunicación entre la base de datos con la interfaz creada.
 
@@ -32,3 +37,8 @@ Dentro del registro es posible realizar búsquedas mediante el código de la per
 
 
 ![image](https://user-images.githubusercontent.com/56621103/119881510-f95e4500-bef2-11eb-9446-a7d80371bfd6.png)
+
+
+# Contribuidores:
+<a href="https://github.com/Jhonn250">Jhonatan Hernández</a>
+<a href="https://github.com/EduardoPEMA">César Pérez</a>
