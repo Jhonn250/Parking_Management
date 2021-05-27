@@ -40,5 +40,5 @@ Dentro del registro es posible realizar búsquedas mediante el código de la per
 
 
 # Contribuidores:
-<a href="https://github.com/Jhonn250">Jhonatan Hernández</a>
-<a href="https://github.com/EduardoPEMA">César Pérez</a>
+- <a href="https://github.com/Jhonn250">Jhonatan Hernández</a>
+- <a href="https://github.com/EduardoPEMA">César Pérez</a>
