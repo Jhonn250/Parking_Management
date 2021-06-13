@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class AdminRegister extends javax.swing.JFrame {
 
+    private boolean isLoged = false;
     private Connection conexion = null; //Objeto de la clase connection
     private ResultSet result = null; //Objeto de la clase resultSet
     private Statement statement = null; //Objeto de la clase Statement
@@ -29,52 +27,53 @@ public class AdminRegister extends javax.swing.JFrame {
     String user = "";
     String password = "";
     String field = "";
+    private User us;
 
     public AdminRegister() {
         initComponents();
         this.setLocationRelativeTo(null);
-        deactivate();
 
     }
-    
-    
-    public void deactivate(){
+
+    public AdminRegister(User u) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        desactivate();
+        us = u;
+
+    }
+
+    public void desactivate() {
         btnInsert.setEnabled(false);
         jButton1.setEnabled(false);
-        
+
         userText.setEnabled(false);
         passField.setEnabled(false);
         fieldText.setEnabled(false);
-        
-        
+
     }
-    
-    public void activate(){
+
+    public void activate() {
         btnInsert.setEnabled(true);
         jButton1.setEnabled(true);
-        
+
         userText.setEnabled(true);
         passField.setEnabled(true);
         fieldText.setEnabled(true);
-        
-        
-    }
-    
 
-    public void connection() {
+    }
+
+    public void connection(String username, String pass) {
         String url = "jdbc:postgresql://localhost:5432/parkingManagement";
         /*Direccion por default en donde se
         encuentra la base de datos*/
-        String user = "postgres";
-        String password = ".Eduardo0309.";
-
         if (conexion != null) {
             return;
         }
 
         try {
 
-            conexion = DriverManager.getConnection(url, user, password);
+            conexion = DriverManager.getConnection(url, us.getUsername(), us.getPassword());
 
             if (conexion != null) //Verificacion para saber si se conecto correctamente
             {
@@ -106,7 +105,7 @@ public class AdminRegister extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error en Nombre de Usuario.");
             userText.requestFocusInWindow();
         }
-        
+
         return check;
     }
 
@@ -203,21 +202,19 @@ public class AdminRegister extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        connection();
+        connection(us.getUsername(), us.getPassword());
         try {
             user = userText.getText();
             password = passField.getText();
             field = fieldText.getText();
 
             statement = conexion.createStatement();
-            
-            if(isValidUser())
-            {
-                int guardia = statement.executeUpdate("INSERT INTO guardias values ('" + user + "','" + password + "','" + field + "');");
-                
+
+            if (isValidUser()) {
+                statement.executeUpdate("INSERT INTO guardias values ('" + user + "','" + password + "','" + field + "');");
+
             }
 
-            
         } catch (Exception e) {
             System.out.println("Error de conexion: " + e.getMessage() + "\n");
         }
@@ -226,15 +223,15 @@ public class AdminRegister extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        menu menuWindow;
-        menuWindow = new menu();
-        menuWindow.show();
+        Login login;
+        login = new Login(us);
+        login.show();
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        deactivate();
+        desactivate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

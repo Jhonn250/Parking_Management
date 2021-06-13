@@ -11,13 +11,18 @@ package interfaz;
  */
 public class menu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form menu
-     */
+   private User us;
     public menu() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
+
+    public menu(User u) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        us = u;
+    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,7 +89,7 @@ public class menu extends javax.swing.JFrame {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         Login navigationWindow;
-        navigationWindow = new Login();
+        navigationWindow = new Login(us);
         navigationWindow.show();
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
@@ -92,14 +97,14 @@ public class menu extends javax.swing.JFrame {
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
         // TODO add your handling code here:
         AdminRegister navigationWindow;
-        navigationWindow = new AdminRegister();
+        navigationWindow = new AdminRegister(us);
         navigationWindow.show();
         this.dispose();
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccessActionPerformed
         AccessControl controlWindow;
-        controlWindow = new AccessControl();
+        controlWindow = new AccessControl(us);
         controlWindow.show();
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnAccessActionPerformed

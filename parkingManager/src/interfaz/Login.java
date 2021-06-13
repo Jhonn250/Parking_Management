@@ -25,18 +25,23 @@ public class Login extends javax.swing.JFrame {
     private ResultSet result = null; //Objeto de la clase resultSet
     private Statement statement = null; //Objeto de la clase Statement
     private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
+    User us;
 
     public Login() {
         initComponents();
+    }
+
+    public Login(User u) {
+        initComponents();
         this.setLocationRelativeTo(null);
+        us = u;
+
     }
 
     public void connection() {
         String url = "jdbc:postgresql://localhost:5432/parkingManagement";
         /*Direccion por default en donde se
         encuentra la base de datos*/
-        String user = "postgres";
-        String password = ".Eduardo0309.";
 
         if (conexion != null) {
             return;
@@ -44,7 +49,7 @@ public class Login extends javax.swing.JFrame {
 
         try {
             Class.forName("org.postgresql.Driver");
-            conexion = DriverManager.getConnection(url, user, password);
+            conexion = DriverManager.getConnection(url, us.getUsername(), us.getPassword());
 
             if (conexion != null) //Verificacion para saber si se conecto correctamente
             {
@@ -124,7 +129,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         AdminRegister navigationWindow;
-        navigationWindow = new AdminRegister();
+        navigationWindow = new AdminRegister(us);
         navigationWindow.show();
         this.dispose();
     }//GEN-LAST:event_btnNewActionPerformed
@@ -141,8 +146,8 @@ public class Login extends javax.swing.JFrame {
             if (result.next()) //Validar si hay un siguiente registro
             {
                 JOptionPane.showMessageDialog(null, "Bienvenido...");
-                menu menuWindow;
-                menuWindow = new menu();
+                AccessControl menuWindow;
+                menuWindow = new AccessControl(us);
                 menuWindow.show();
                 this.dispose();
 

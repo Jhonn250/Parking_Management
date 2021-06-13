@@ -25,11 +25,13 @@ public class AccessControl extends javax.swing.JFrame {
 
     Date date = new Date(); //Fecha (hora entrada)
     Date auxDate = new Date();//Fecha (hora salida)
-
     private Connection conexion = null; //Objeto de la clase connection
     private ResultSet result; //Objeto de la clase resultSet
     private Statement statement = null; //Objeto de la clase Statement
     private PreparedStatement ps = null; //Objeto de la clase Prepared Statement
+    private User us;
+    private String user = "";
+    private String password = "";
 
     private String id = "";
     private String name = "";
@@ -56,26 +58,31 @@ public class AccessControl extends javax.swing.JFrame {
 
     public AccessControl() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        desactivate();
-        defaultInfo();
 
     }
 
-    public void connection() {
+    public AccessControl(User u) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        desactivate();
+        defaultInfo();
+        us = u;
+
+    }
+
+    public void connection(String user, String password) {
         String url = "jdbc:postgresql://localhost:5432/parkingManagement";
         /*Direccion por default en donde se
         encuentra la base de datos*/
-        String user = "postgres";
-        String password = ".Eduardo0309.";
 
+        System.out.println("Usuario: " + user + "" + password);
         if (conexion != null) {
             return;
         }
 
         try {
 
-            conexion = DriverManager.getConnection(url, user, password);
+            conexion = DriverManager.getConnection(url, us.getUsername(), us.getPassword());
 
             if (conexion != null) //Verificacion para saber si se conecto correctamente
             {
@@ -140,13 +147,12 @@ public class AccessControl extends javax.swing.JFrame {
         statusComboBox.setSelectedIndex(-1);
         areaComboBox.setEnabled(true);
         departmentComboBox.setEnabled(true);
-        
 
         platesText.setEnabled(true);
         modelText.setEnabled(true);
         colorText.setEnabled(true);
         typeVcomboBox.setEnabled(true);
-        
+
         btnInsert.setEnabled(true);
         btnSearch.setEnabled(true);
         btnUpdate.setEnabled(true);
@@ -166,39 +172,36 @@ public class AccessControl extends javax.swing.JFrame {
         modelText.setEnabled(false);
         colorText.setEnabled(false);
         typeVcomboBox.setEnabled(false);
-        
+
         btnInsert.setEnabled(false);
         btnSearch.setEnabled(false);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
-       
 
     }
-    
-    public void hiddeLabelVehicles()
-    {
+
+    public void hiddeLabelVehicles() {
         typeVcomboBox.setVisible(false);
         jLabel9.setVisible(false);
         jLabel12.setVisible(false);
         jLabel15.setVisible(false);
-        
+
         colorText.setVisible(false);
         modelText.setVisible(false);
-        
+
     }
-    
-     public void showLabelVehicles()
-    {
+
+    public void showLabelVehicles() {
         typeVcomboBox.setVisible(true);
         jLabel9.setVisible(true);
         jLabel12.setVisible(true);
         jLabel15.setVisible(true);
-        
+
         colorText.setVisible(true);
         modelText.setVisible(true);
-        
+
     }
-    
+
     public void clearTxt() {
 
         searchText.setText("");
@@ -211,7 +214,7 @@ public class AccessControl extends javax.swing.JFrame {
 
         typeVcomboBox.setSelectedIndex(-1);
         platesText.setText("");
-        
+
         colorText.setText("");
         modelText.setText("");
         careerText.setText("");
@@ -921,7 +924,7 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        connection();
+        connection(us.getUsername(), us.getPassword());
         try {
 
             id = idText.getText();
@@ -942,7 +945,7 @@ public class AccessControl extends javax.swing.JFrame {
 
             department = (String) departmentComboBox.getSelectedItem();
             area = (String) areaComboBox.getSelectedItem();
-            
+
             if (indexComboBox() == 0 && isValidInfoStudent() == true && isValidVehicle() == true) {
                 long time = date.getTime();
                 int idPark = 0;
@@ -1035,7 +1038,7 @@ public class AccessControl extends javax.swing.JFrame {
         // TODO add your handling code here:
         btnInsert.setEnabled(false);
         conexion = null;
-        connection();
+        connection(us.getUsername(), us.getPassword());
         if (indexComboBox() != -1) {
             if (indexComboBox() == 0) {
                 searchStudent();
@@ -1070,7 +1073,7 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        connection();
+        connection(us.getUsername(), us.getPassword());
         if (indexComboBox() != -1) {
 
             switch (existPerson()) {
@@ -1130,7 +1133,7 @@ public class AccessControl extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        connection();
+        connection(us.getUsername(), us.getPassword());
         int res = 0;
         try {
             if (indexComboBox() != -1) {
