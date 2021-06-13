@@ -231,7 +231,7 @@ public class AccessControl extends javax.swing.JFrame {
         if (idText.getText().length() > 0) {
             if (nameText.getText().length() > 0) {
                 if (lastText.getText().length() > 0) {
-                    if (phoneText.getText().length() > 0 && phoneText.getText().length() == 8) {
+                    if (phoneText.getText().length() > 0 && phoneText.getText().length() == 10) {
                         if (ocupationComboBox.getSelectedIndex() != -1) {
                             if (departmentComboBox.getSelectedIndex() != -1) {
                                 check = true;
